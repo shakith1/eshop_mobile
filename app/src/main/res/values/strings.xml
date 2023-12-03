@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">EShop</string>
+    <string name="signin">Sign In</string>
+    <string name="hello">Hello</string>
+    <string name="signin_text">You can use your email or username, or you can continue with your social account</string>
+    <string name="create_account">Create an account</string>
+    <string name="google_signin">Sign in with Google</string>
+    <string name="email_or_mobile">Use email or mobile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="get_start">Let\'s get started</string>
+    <string name="continue_email">Continue with email</string>
+    <string name="continue_googleq">Continue with Google</string>
+    <string name="create_business_account">Create a business account</string>
+    <string name="email_or_mobile_text">Email or mobile</string>
+    <string name="password">Password</string>
+    <string name="welcome">Welcome</string>
+    <string name="remember_me">Remember me</string>
+    <string name="reset_password">Reset your password</string>
+</resources>

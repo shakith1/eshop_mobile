@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Disabled state -->
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <!-- Define your button's appearance when disabled -->
+            <solid android:color="@color/button_disable" /> <!-- Change to your desired color -->
+            <!-- Add other properties (stroke, corners) if needed -->
+            <corners android:radius="100dp" />
+            <stroke android:width="3px" android:color="@color/button_disable" />
+        </shape>
+    </item>
+    <!-- Enabled state -->
+    <item android:state_enabled="true">
+        <shape android:shape="rectangle">
+            <!-- Change color when enabled -->
+            <solid android:color="@color/button_blue" /> <!-- Change to your desired enabled color -->
+            <!-- Add other properties (stroke, corners) if needed -->
+            <corners android:radius="100dp" />
+            <stroke android:width="3px" android:color="@color/button_blue" />
+        </shape>
+    </item>
+</selector>
