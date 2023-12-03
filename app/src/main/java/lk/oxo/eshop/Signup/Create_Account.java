@@ -1,4 +1,4 @@
-package lk.oxo.eshop.Login;
+package lk.oxo.eshop.Signup;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -31,5 +31,27 @@ public class Create_Account extends Fragment {
         if (nightModeFlags != Configuration.UI_MODE_NIGHT_NO) {
             view.findViewById(R.id.button8).setBackgroundResource(R.drawable.button_background_night);
         }
+
+        view.findViewById(R.id.button9).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(R.id.fragmentContainerView, Signup_email.class,null)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        view.findViewById(R.id.button10).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(R.id.fragmentContainerView, SignupMobile.class,null)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
     }
 }

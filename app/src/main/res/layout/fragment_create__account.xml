@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login.Create_Account">
+    tools:context=".Signup.Create_Account">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -25,6 +25,22 @@
             app:backgroundTint="@color/button_blue"
             app:layout_constraintBottom_toTopOf="@+id/button8"
             app:layout_constraintEnd_toEndOf="@+id/button8"
+            app:layout_constraintStart_toStartOf="@+id/button8" />
+
+        <Button
+            android:id="@+id/button10"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/button_background_normal"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/continue_mobile"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/button_blue"
+            app:layout_constraintBottom_toTopOf="@+id/button9"
+            app:layout_constraintEnd_toEndOf="@+id/button8"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/button8" />
 
         <Button

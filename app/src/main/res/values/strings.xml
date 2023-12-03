@@ -17,4 +17,21 @@
     <string name="welcome">Welcome</string>
     <string name="remember_me">Remember me</string>
     <string name="reset_password">Reset your password</string>
+    <string name="continue_mobile">Continue with mobile</string>
+    <string name="email">Email</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="continue_default">Continue</string>
+    <string name="already_member">Already a member? Sign in</string>
+    <string name="agreemet">By creating an account, you agree to our User Agreement and acknowledge reading our User Privacy Notice.</string>
+
+    <!--    Password Hint Messages-->
+    <string name="password_hint_empty">At least 8 characters, at least 1 letter and a number or symbol</string>
+    <string name="password_hint_1">At least 8 characters and a letter</string>
+    <string name="password_hint_2">At least 8 characters and a number or symbol</string>
+    <string name="password_hint_3">At least 8 characters</string>
+    <string name="password_hint_4">A letter</string>
+    <string name="password_hint_5">At least a letter</string>
+    <string name="password_hint_6">A number or symbol</string>
+    <string name="mobile">Mobile</string>
 </resources>
