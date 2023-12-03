@@ -1,5 +1,6 @@
 package lk.oxo.eshop.Signup;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,10 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import lk.oxo.eshop.R;
+import lk.oxo.eshop.util.UIMode;
 
 public class Signup_Enter_Password extends Fragment {
 
@@ -33,7 +36,12 @@ public class Signup_Enter_Password extends Fragment {
 
         EditText password = view.findViewById(R.id.password_signup);
         TextView password_hint = view.findViewById(R.id.textView15);
+        Button create_account = view.findViewById(R.id.button14);
+
         Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in_animation);
+
+        if(UIMode.getUiModeFlags(getContext()) != Configuration.UI_MODE_NIGHT_NO)
+            create_account.setBackgroundResource(R.drawable.button_background_continue_night_disable);
 
         TextWatcher watcher = new TextWatcher() {
             @Override
@@ -51,8 +59,11 @@ public class Signup_Enter_Password extends Fragment {
                     password_hint.startAnimation(animation);
                 }
 
-                if(message.isEmpty())
-                    view.findViewById(R.id.button14).setEnabled(true);
+                if(message.isEmpty()) {
+                    create_account.setEnabled(true);
+                    create_account.setBackgroundResource(R.drawable.button_background_continue_night);
+                }else
+                    create_account.setBackgroundResource(R.drawable.button_background_continue_night_disable);
             }
 
             @Override

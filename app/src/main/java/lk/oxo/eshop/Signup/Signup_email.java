@@ -1,6 +1,6 @@
 package lk.oxo.eshop.Signup;
 
-import android.graphics.Color;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,10 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.TextWatcher;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import lk.oxo.eshop.Login.Signin_main;
-import lk.oxo.eshop.MainActivity;
 import lk.oxo.eshop.R;
 import lk.oxo.eshop.util.ButtonColor;
+import lk.oxo.eshop.util.UIMode;
 import lk.oxo.eshop.util.Validation;
 
 public class Signup_email extends Fragment {
@@ -38,14 +35,20 @@ public class Signup_email extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Button signin = view.findViewById(R.id.button13);
+        Button continueBtn = view.findViewById(R.id.button11);
+
         ButtonColor buttonColor = new ButtonColor(0, 18, 25);
-        signin.setText(buttonColor.changeButtonText("Already a member? Sign in", view.getContext()));
+
+        if (UIMode.getUiModeFlags(getContext()) == Configuration.UI_MODE_NIGHT_NO)
+            signin.setText(buttonColor.changeButtonText("Already a member? Sign in", getContext(), "day"));
+        else {
+            continueBtn.setBackgroundResource(R.drawable.button_background_continue_night_disable);
+            signin.setText(buttonColor.changeButtonText("Already a member? Sign in", getContext(), "night"));
+        }
 
         EditText email = view.findViewById(R.id.email_signup);
         EditText fname = view.findViewById(R.id.fname_signup);
         EditText lname = view.findViewById(R.id.lname_signup);
-
-        Button continueBtn = view.findViewById(R.id.button11);
 
         TextWatcher watcher = new TextWatcher() {
             @Override
@@ -59,7 +62,12 @@ public class Signup_email extends Fragment {
                 String fname1 = fname.getText().toString().trim();
                 String lname1 = lname.getText().toString().trim();
 
-                continueBtn.setEnabled(!email1.isEmpty() && !fname1.isEmpty() && !lname1.isEmpty()  && Validation.checkEmail(email1));
+                if(!email1.isEmpty() && !fname1.isEmpty() && !lname1.isEmpty()  && Validation.checkEmail(email1)){
+                    continueBtn.setEnabled(true);
+                    continueBtn.setBackgroundResource(R.drawable.button_background_continue_night);
+                }else{
+                    continueBtn.setBackgroundResource(R.drawable.button_background_continue_night_disable);
+                }
             }
 
             @Override

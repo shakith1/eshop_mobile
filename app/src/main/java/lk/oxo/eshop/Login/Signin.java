@@ -1,5 +1,6 @@
 package lk.oxo.eshop.Login;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 
 import lk.oxo.eshop.R;
 import lk.oxo.eshop.Signup.Create_Account;
+import lk.oxo.eshop.util.UIMode;
 import lk.oxo.eshop.util.Validation;
 
 public class Signin extends Fragment {
@@ -37,6 +39,10 @@ public class Signin extends Fragment {
 
         String email_, password_;
 
+        if (UIMode.getUiModeFlags(getContext()) != Configuration.UI_MODE_NIGHT_NO){
+            signin.setBackgroundResource(R.drawable.button_background_continue_night_disable);
+        }
+
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -47,7 +53,13 @@ public class Signin extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String email1 = email.getText().toString().trim();
                 String password1 = password.getText().toString().trim();
-                signin.setEnabled(!email1.isEmpty() && !password1.isEmpty() && Validation.checkEmail(email1));
+
+                if(!email1.isEmpty() && !password1.isEmpty() && Validation.checkEmail(email1)){
+                    signin.setEnabled(true);
+                    signin.setBackgroundResource(R.drawable.button_background_continue_night);
+                }else{
+                    signin.setBackgroundResource(R.drawable.button_background_continue_night_disable);
+                }
             }
 
             @Override

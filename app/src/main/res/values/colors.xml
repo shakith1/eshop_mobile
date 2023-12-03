@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="button_blue">#0A5DC2</color>
     <color name="button_disable">#DBDDDF</color>
+    <color name="button_disable_night">#858687</color>
 </resources>

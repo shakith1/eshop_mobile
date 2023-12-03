@@ -44,10 +44,15 @@ public class ButtonColor {
         this.l_end_index = l_end_index;
     }
 
-    public SpannableString changeButtonText(String text, Context context){
+    public SpannableString changeButtonText(String text, Context context,String mode){
         SpannableString spannableString = new SpannableString(text);
 
-        ForegroundColorSpan blackColorSpan = new ForegroundColorSpan(Color.BLACK);
+        ForegroundColorSpan blackColorSpan;
+        if(mode.equals("day"))
+            blackColorSpan = new ForegroundColorSpan(Color.BLACK);
+        else
+            blackColorSpan = new ForegroundColorSpan(Color.WHITE);
+
         ForegroundColorSpan blueColorSpan = new ForegroundColorSpan(context.getColor(R.color.button_blue));
 
         spannableString.setSpan(blackColorSpan, this.f_start_index,

@@ -31,7 +31,6 @@ public class Signin_main extends Fragment {
         if (nightModeFlags != Configuration.UI_MODE_NIGHT_NO) {
             view.findViewById(R.id.button2).setBackgroundResource(R.drawable.button_background_night);
         }
-        System.out.println(getResources().getConfiguration().uiMode);
 
         view.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
