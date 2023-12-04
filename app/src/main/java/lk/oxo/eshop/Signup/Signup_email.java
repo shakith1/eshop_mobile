@@ -17,6 +17,7 @@ import android.widget.EditText;
 
 import lk.oxo.eshop.Login.Signin_main;
 import lk.oxo.eshop.R;
+import lk.oxo.eshop.model.User;
 import lk.oxo.eshop.util.ButtonColor;
 import lk.oxo.eshop.util.UIMode;
 import lk.oxo.eshop.util.Validation;
@@ -40,10 +41,14 @@ public class Signup_email extends Fragment {
         ButtonColor buttonColor = new ButtonColor(0, 18, 25);
 
         if (UIMode.getUiModeFlags(getContext()) == Configuration.UI_MODE_NIGHT_NO)
-            signin.setText(buttonColor.changeButtonText("Already a member? Sign in", getContext(), "day"));
+            signin.setText(buttonColor.
+                    changeButtonText(getString(R.string.already_member),
+                            getContext(), getString(R.string.day)));
         else {
             continueBtn.setBackgroundResource(R.drawable.button_background_continue_night_disable);
-            signin.setText(buttonColor.changeButtonText("Already a member? Sign in", getContext(), "night"));
+            signin.setText(buttonColor.
+                    changeButtonText(getString(R.string.already_member),
+                            getContext(), getString(R.string.night)));
         }
 
         EditText email = view.findViewById(R.id.email_signup);
@@ -62,11 +67,16 @@ public class Signup_email extends Fragment {
                 String fname1 = fname.getText().toString().trim();
                 String lname1 = lname.getText().toString().trim();
 
-                if(!email1.isEmpty() && !fname1.isEmpty() && !lname1.isEmpty()  && Validation.checkEmail(email1)){
+                if (!email1.isEmpty() && !fname1.isEmpty() && !lname1.isEmpty() && Validation.checkEmail(email1)) {
                     continueBtn.setEnabled(true);
-                    continueBtn.setBackgroundResource(R.drawable.button_background_continue_night);
-                }else{
-                    continueBtn.setBackgroundResource(R.drawable.button_background_continue_night_disable);
+                    if (UIMode.getUiModeFlags(getContext()) == Configuration.UI_MODE_NIGHT_YES)
+                        continueBtn.setBackgroundResource(R.drawable.button_background_continue_night);
+                } else {
+                    continueBtn.setEnabled(false);
+                    if (UIMode.getUiModeFlags(getContext()) == Configuration.UI_MODE_NIGHT_YES)
+                        continueBtn.setBackgroundResource(R.drawable.button_background_continue_night_disable);
+                    else
+                        continueBtn.setBackgroundResource(R.drawable.disable_button);
                 }
             }
 
@@ -83,9 +93,17 @@ public class Signup_email extends Fragment {
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle data = new Bundle();
+                data.putString(getString(R.string.email_bundle), email.getText().toString());
+                data.putString(getString(R.string.fname_bundle), fname.getText().toString());
+                data.putString(getString(R.string.lname_bundle), lname.getText().toString());
+
+                Signup_Enter_Password enter_password = new Signup_Enter_Password();
+                enter_password.setArguments(data);
+
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .setReorderingAllowed(true)
-                        .replace(R.id.fragmentContainerView, Signup_Enter_Password.class,null)
+                        .replace(R.id.fragmentContainerView, enter_password, null)
                         .addToBackStack(null)
                         .commit();
             }
@@ -96,7 +114,7 @@ public class Signup_email extends Fragment {
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .setReorderingAllowed(true)
-                        .replace(R.id.fragmentContainerView, Signin_main.class,null)
+                        .replace(R.id.fragmentContainerView, Signin_main.class, null)
                         .addToBackStack(null)
                         .commit();
             }

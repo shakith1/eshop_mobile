@@ -17,11 +17,21 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import lk.oxo.eshop.R;
 import lk.oxo.eshop.util.UIMode;
 
 public class Signup_Enter_Password extends Fragment {
+
+    private FirebaseAuth firebaseAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,13 +44,17 @@ public class Signup_Enter_Password extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
         EditText password = view.findViewById(R.id.password_signup);
         TextView password_hint = view.findViewById(R.id.textView15);
         Button create_account = view.findViewById(R.id.button14);
 
+//        UI Customization
+
         Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in_animation);
 
-        if(UIMode.getUiModeFlags(getContext()) != Configuration.UI_MODE_NIGHT_NO)
+        if (UIMode.getUiModeFlags(getContext()) != Configuration.UI_MODE_NIGHT_NO)
             create_account.setBackgroundResource(R.drawable.button_background_continue_night_disable);
 
         TextWatcher watcher = new TextWatcher() {
@@ -54,16 +68,21 @@ public class Signup_Enter_Password extends Fragment {
                 String pass = password.getText().toString().trim();
                 String message = getMessage(pass);
 
-                if(!password_hint.getText().toString().equals(message)){
+                if (!password_hint.getText().toString().equals(message)) {
                     password_hint.setText(message);
                     password_hint.startAnimation(animation);
                 }
 
-                if(message.isEmpty()) {
+                if (message.isEmpty()) {
                     create_account.setEnabled(true);
-                    create_account.setBackgroundResource(R.drawable.button_background_continue_night);
-                }else
-                    create_account.setBackgroundResource(R.drawable.button_background_continue_night_disable);
+                    if (UIMode.getUiModeFlags(getContext()) == Configuration.UI_MODE_NIGHT_YES)
+                        create_account.setBackgroundResource(R.drawable.button_background_continue_night);
+                } else {
+                    if (UIMode.getUiModeFlags(getContext()) == Configuration.UI_MODE_NIGHT_YES)
+                        create_account.setBackgroundResource(R.drawable.button_background_continue_night_disable);
+                    else
+                        create_account.setBackgroundResource(R.drawable.disable_button);
+                }
             }
 
             @Override
@@ -74,6 +93,65 @@ public class Signup_Enter_Password extends Fragment {
 
         password.addTextChangedListener(watcher);
 
+//        End UI Customization
+
+        create_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String firstname, lastname, email;
+                String pass = password.getText().toString();
+
+                Bundle data = getArguments();
+                System.out.println(data);
+                if (data != null) {
+                    email = getString(R.string.email_bundle);
+
+                    Bundle data_second = new Bundle();
+                    data_second.putBundle(getString(R.string.user_bundle), data);
+                    data_second.putString(getString(R.string.password_bundle), pass);
+
+                    Signup_Enter_Mobile enter_mobile = new Signup_Enter_Mobile();
+                    enter_mobile.setArguments(data_second);
+
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .setReorderingAllowed(true)
+                            .replace(R.id.fragmentContainerView, enter_mobile, null)
+                            .addToBackStack(null)
+                            .commit();
+
+//                    firebaseAuth.createUserWithEmailAndPassword(email, pass)
+//                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<AuthResult> task) {
+//                                    if (task.isSuccessful()) {
+//                                        FirebaseUser user = firebaseAuth.getCurrentUser();
+////                                        if (user != null) {
+////                                            user.updateProfile(new UserProfileChangeRequest
+////                                                            .Builder()
+////                                                            .setDisplayName(firstname + " " + lastname).build())
+////                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+////                                                        @Override
+////                                                        public void onComplete(@NonNull Task<Void> task) {
+////                                                            if (task.isSuccessful()) {
+////                                                                Toast.makeText(getContext(),
+////                                                                        getString(R.string.email_user_created),
+////                                                                        Toast.LENGTH_SHORT).show();
+////                                                                user.sendEmailVerification();
+////                                                            }
+////                                                        }
+////                                                    });
+////                                        }
+//                                    } else {
+//                                        Toast.makeText(getContext(),
+//                                                getString(R.string.user_creation_error),
+//                                                Toast.LENGTH_SHORT).show();
+//                                    }
+//                                }
+//                            });
+
+                }
+            }
+        });
     }
 
     private String getMessage(String password) {

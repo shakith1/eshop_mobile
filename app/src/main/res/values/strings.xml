@@ -34,4 +34,29 @@
     <string name="password_hint_5">At least a letter</string>
     <string name="password_hint_6">A number or symbol</string>
     <string name="mobile">Mobile</string>
+
+    <string name="day">day</string>
+    <string name="night">night</string>
+
+    <!--    Bundle  -->
+    <string name="user_bundle">user</string>
+    <string name="email_bundle">email</string>
+    <string name="fname_bundle">fname</string>
+    <string name="lname_bundle">lname</string>
+    <string name="password_bundle">password</string>
+    <string name="mobile_bundle">mobile</string>
+
+    <string name="verify_otp">Please verify OTP.</string>
+
+    <string name="email_user_created">User created Successfully. Please verify email.</string>
+    <string name="user_creation_error">Error user creation</string>
+    <string name="add_phone">Add your phone number</string>
+    <string name="message_agreement">By selecting Continue, you agree to receive a text message with a security code. Standard rates may apply</string>
+    <string name="enter_security_code">Enter security code</string>
+    <string name="security_desc">We sent the code to</string>
+    <string name="resend_code">Resend code</string>
+    <string name="resend_code_in">You can resend the security code in</string>
+    <string name="seconds">seconds.</string>
+    <string name="x">x</string>
+    <string name="authentication">authentication</string>
 </resources>
