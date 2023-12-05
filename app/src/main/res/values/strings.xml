@@ -59,4 +59,5 @@
     <string name="seconds">seconds.</string>
     <string name="x">x</string>
     <string name="authentication">authentication</string>
+    <string name="message_title">CloudOTP</string>
 </resources>

@@ -42,16 +42,5 @@ public class Create_Account extends Fragment {
                         .commit();
             }
         });
-
-        view.findViewById(R.id.button10).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .setReorderingAllowed(true)
-                        .replace(R.id.fragmentContainerView, SignupMobile.class,null)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
     }
 }

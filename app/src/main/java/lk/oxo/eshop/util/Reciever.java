@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
+import lk.oxo.eshop.R;
+
 public class Reciever extends BroadcastReceiver {
     private SmsListener smsListener;
 
@@ -24,11 +26,15 @@ public class Reciever extends BroadcastReceiver {
                 if (pdus != null) {
                     for (Object pdu : pdus) {
                         SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) pdu);
+                        String sender = smsMessage.getDisplayOriginatingAddress();
                         String messageBody = smsMessage.getMessageBody();
 
-                        String otp = extractOTP(messageBody);
-                        if (smsListener != null)
-                            smsListener.onSmsReceived(otp);
+                        if(sender != null && sender.contains(context.getString(R.string.message_title))){
+                            String otp = extractOTP(messageBody);
+                            if (smsListener != null)
+                                smsListener.onSmsReceived(otp);
+                            break;
+                        }
                     }
                 }
             }
