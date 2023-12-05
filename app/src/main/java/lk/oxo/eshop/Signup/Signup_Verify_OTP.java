@@ -19,7 +19,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
+
 import lk.oxo.eshop.R;
+import lk.oxo.eshop.util.ProgressBarInterface;
 import lk.oxo.eshop.util.auth.AuthHandler;
 import lk.oxo.eshop.util.auth.AuthenticationManager;
 import lk.oxo.eshop.util.auth.PhoneAuthCallback;
@@ -28,18 +33,15 @@ import lk.oxo.eshop.util.SmsListener;
 import lk.oxo.eshop.util.UIMode;
 import lk.oxo.eshop.util.Validation;
 
-public class Signup_Verify_OTP extends Fragment implements SmsListener, PhoneAuthCallback {
-
+public class Signup_Verify_OTP extends Fragment implements SmsListener, PhoneAuthCallback, ProgressBarInterface {
     private static final long COUNTDOWN_DURATION = 30 * 1000;
     private static final long INTERVAL = 1000;
-    private CountDownTimer countDownTimer;
-    private TextView resendText, mobileText;
+    private TextView resendText;
+    private TextView otpError;
     private EditText otp;
-    private Button reset_btn, continue_btn;
-    private String mobile;
+    private Button resend_btn, continue_btn;
     private AuthenticationManager authenticationManager;
     private ProgressBar progressBar;
-
     private Reciever reciever;
 
     @Override
@@ -72,29 +74,31 @@ public class Signup_Verify_OTP extends Fragment implements SmsListener, PhoneAut
         otp = view.findViewById(R.id.pinView);
 
         resendText = view.findViewById(R.id.textView22);
-        mobileText = view.findViewById(R.id.textView21);
-        reset_btn = view.findViewById(R.id.button20);
+        TextView mobileText = view.findViewById(R.id.textView21);
+        resend_btn = view.findViewById(R.id.button20);
 
         progressBar = view.findViewById(R.id.progressBar2);
+        otpError = view.findViewById(R.id.textView10);
 
         Bundle data = getArguments();
 
         if (UIMode.getUiModeFlags(getContext()) != Configuration.UI_MODE_NIGHT_NO) {
             continue_btn.setBackgroundResource(R.drawable.button_background_continue_night_disable);
-            reset_btn.setBackgroundResource(R.drawable.button_background_continue_night_disable);
+            resend_btn.setBackgroundResource(R.drawable.button_background_continue_night_disable);
         }
 
         if (data != null) {
-            mobile = data.getString(getString(R.string.mobile_bundle));
+            String mobile = data.getString(getString(R.string.mobile_bundle));
             authenticationManager = (AuthenticationManager) data.getSerializable(getString(R.string.authentication));
 
             mobileText.setText(getString(R.string.security_desc) + " " + generateMaskedMobile(mobile));
         }
 
         TextWatcher watcher = new TextWatcher() {
+            String otp_;
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                otp_ = s.toString();
             }
 
             @Override
@@ -105,6 +109,9 @@ public class Signup_Verify_OTP extends Fragment implements SmsListener, PhoneAut
                     continue_btn.setEnabled(true);
                     if (UIMode.getUiModeFlags(getContext()) == Configuration.UI_MODE_NIGHT_YES)
                         continue_btn.setBackgroundResource(R.drawable.button_background_continue_night);
+
+                    if (!otp_.equals(s.toString()))
+                        hideErrorMessage();
                 } else {
                     if (UIMode.getUiModeFlags(getContext()) == Configuration.UI_MODE_NIGHT_YES)
                         continue_btn.setBackgroundResource(R.drawable.button_background_continue_night_disable);
@@ -130,6 +137,12 @@ public class Signup_Verify_OTP extends Fragment implements SmsListener, PhoneAut
             }
         });
 
+        resend_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                authenticationManager.resendOtp();
+            }
+        });
     }
 
     private void callAuth(String otp) {
@@ -137,7 +150,7 @@ public class Signup_Verify_OTP extends Fragment implements SmsListener, PhoneAut
     }
 
     private void startCountDownTimer() {
-        countDownTimer = new CountDownTimer(COUNTDOWN_DURATION, INTERVAL) {
+        CountDownTimer countDownTimer = new CountDownTimer(COUNTDOWN_DURATION, INTERVAL) {
             @Override
             public void onTick(long millisUntilFinished) {
                 long seconds = millisUntilFinished / 1000;
@@ -147,13 +160,13 @@ public class Signup_Verify_OTP extends Fragment implements SmsListener, PhoneAut
 
             @Override
             public void onFinish() {
-                reset_btn.setEnabled(true);
+                resend_btn.setEnabled(true);
                 if (UIMode.getUiModeFlags(getContext()) != Configuration.UI_MODE_NIGHT_NO) {
-                    reset_btn.setBackgroundResource(R.drawable.button_background_border_white);
-                    reset_btn.setTextColor(getResources().getColor(R.color.white));
+                    resend_btn.setBackgroundResource(R.drawable.button_background_border_white);
+                    resend_btn.setTextColor(getResources().getColor(R.color.white));
                 } else {
-                    reset_btn.setBackgroundResource(R.drawable.button_background_border_black);
-                    reset_btn.setTextColor(getResources().getColor(R.color.black));
+                    resend_btn.setBackgroundResource(R.drawable.button_background_border_black);
+                    resend_btn.setTextColor(getResources().getColor(R.color.black));
                 }
                 resendText.setText("");
             }
@@ -182,14 +195,16 @@ public class Signup_Verify_OTP extends Fragment implements SmsListener, PhoneAut
         otp.setText(sms);
     }
 
-    private void showProgressBar() {
+    @Override
+    public void showProgressBar() {
         if (progressBar != null) {
             progressBar.setVisibility(View.VISIBLE);
             otp.setEnabled(false);
         }
     }
 
-    private void hideProgressBar() {
+    @Override
+    public void hideProgressBar() {
         if (progressBar != null) {
             progressBar.setVisibility(View.INVISIBLE);
             otp.setEnabled(true);
@@ -197,14 +212,29 @@ public class Signup_Verify_OTP extends Fragment implements SmsListener, PhoneAut
     }
 
     @Override
+    public void showErrorMessage() {
+        otpError.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideErrorMessage() {
+        otpError.setVisibility(View.GONE);
+    }
+
+    @Override
     public void authSuccess() {
         hideProgressBar();
-        AuthHandler.handleSuccess();
+        AuthHandler.handleSuccess(getContext());
     }
 
     @Override
     public void authFailed(String message) {
         hideProgressBar();
         AuthHandler.handleFailed(getContext(), message);
+    }
+
+    @Override
+    public void authFailed() {
+        showErrorMessage();
     }
 }

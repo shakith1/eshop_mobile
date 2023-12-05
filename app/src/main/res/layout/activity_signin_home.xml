@@ -11,7 +11,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:name="lk.oxo.eshop.Login.Signin_main"
+        android:name="lk.oxo.eshop.Signup.Signup_Verify_OTP"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

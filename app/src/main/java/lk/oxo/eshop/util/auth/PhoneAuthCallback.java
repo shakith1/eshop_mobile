@@ -5,4 +5,5 @@ import com.google.firebase.auth.PhoneAuthProvider;
 public interface PhoneAuthCallback {
     void authSuccess();
     void authFailed(String message);
+    void authFailed();
 }

@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,13 +29,11 @@ import lk.oxo.eshop.model.User;
 
 public class AuthenticationManager implements Serializable {
 
-    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     private String verificationId;
     private PhoneAuthProvider.ForceResendingToken resendingToken;
-
     private User user;
-
     private Context context;
 
     public AuthenticationManager(User user) {
@@ -100,7 +99,7 @@ public class AuthenticationManager implements Serializable {
                                         }
                                     });
                         }else{
-                            callback.authFailed(context.getString(R.string.auth_fail_3));
+                            callback.authFailed();
                         }
                     }
                 });
@@ -130,5 +129,27 @@ public class AuthenticationManager implements Serializable {
     public void callAuth(PhoneAuthCallback callback,String otp,Context context){
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, otp);
         createAccountAuth(credential,callback,context);
+    }
+
+    public void resendOtp(){
+        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(firebaseAuth)
+                .setForceResendingToken(resendingToken)
+                .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                    @Override
+                    public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                    }
+                    @Override
+                    public void onVerificationFailed(@NonNull FirebaseException e) {
+                    }
+                    @Override
+                    public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                        super.onCodeSent(s, forceResendingToken);
+                        verificationId = s;
+                        resendingToken = forceResendingToken;
+                    }
+                })
+                .build();
+
+        PhoneAuthProvider.verifyPhoneNumber(options);
     }
 }
