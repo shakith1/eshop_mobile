@@ -63,7 +63,7 @@
 
     <string name="users">users</string>
 
-<!--    User Collection Data-->
+    <!--    User Collection Data-->
     <string name="email_collection">email</string>
     <string name="fname_collection">first_name</string>
     <string name="lname_collection">last_name</string>
@@ -75,4 +75,6 @@
     <string name="email_error">This email address has already been used to create eShop account. Please enter a different email account</string>
     <string name="mobile_error">This mobile number has already been used to create eShop account. Please enter a different mobile number</string>
     <string name="otp_error">You have entered an incorrect security code. Please try again</string>
+
+    <string name="web_client_id">172493765045-ndhsima0jjvl2i3oabpvncuk6hgfongl.apps.googleusercontent.com</string>
 </resources>

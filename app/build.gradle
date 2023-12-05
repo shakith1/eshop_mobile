@@ -45,10 +45,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation("com.google.firebase:firebase-firestore")
 
-    implementation 'io.github.chaosleung:pinview:1.4.4'
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
 
-    implementation 'com.google.android.gms:play-services-base:16.0.1'
-    implementation 'com.google.android.gms:play-services-identity:16.0.0'
-    implementation 'com.google.android.gms:play-services-auth:16.0.1'
-    implementation 'com.google.android.gms:play-services-auth-api-phone:16.0.0'
+    implementation 'io.github.chaosleung:pinview:1.4.4'
 }

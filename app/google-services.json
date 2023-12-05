@@ -12,7 +12,20 @@
           "package_name": "lk.oxo.eshop"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "172493765045-o2d2177859n42uc7e3d4l4d732c02269.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "lk.oxo.eshop",
+            "certificate_hash": "a9d18c590d36008dcaee3df9eea4ea74290e1b82"
+          }
+        },
+        {
+          "client_id": "172493765045-ndhsima0jjvl2i3oabpvncuk6hgfongl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCR68B9git7LjQ-GyuNl_EppMAuTR2672U"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "172493765045-ndhsima0jjvl2i3oabpvncuk6hgfongl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
