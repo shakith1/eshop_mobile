@@ -60,4 +60,17 @@
     <string name="x">x</string>
     <string name="authentication">authentication</string>
     <string name="message_title">CloudOTP</string>
+
+    <string name="users">users</string>
+
+<!--    User Collection Data-->
+    <string name="email_collection">email</string>
+    <string name="fname_collection">first_name</string>
+    <string name="lname_collection">last_name</string>
+    <string name="mobile_collection">mobile</string>
+
+
+    <string name="auth_fail_1">Error updating user details to the database</string>
+    <string name="auth_fail_2">Error updating user profile</string>
+    <string name="auth_fail_3">Error User Creation</string>
 </resources>

@@ -1,18 +1,11 @@
 package lk.oxo.eshop.Signup;
 
-import android.Manifest;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.CountDownTimer;
@@ -23,33 +16,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.chaos.view.PinView;
-import com.google.android.gms.auth.api.phone.SmsRetriever;
-import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
-import com.google.android.gms.common.api.CommonStatusCodes;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.tasks.OnSuccessListener;
-
 import lk.oxo.eshop.R;
-import lk.oxo.eshop.util.AuthenticationManager;
+import lk.oxo.eshop.util.auth.AuthHandler;
+import lk.oxo.eshop.util.auth.AuthenticationManager;
+import lk.oxo.eshop.util.auth.PhoneAuthCallback;
 import lk.oxo.eshop.util.Reciever;
 import lk.oxo.eshop.util.SmsListener;
 import lk.oxo.eshop.util.UIMode;
 import lk.oxo.eshop.util.Validation;
 
-public class Signup_Verify_OTP extends Fragment implements SmsListener {
+public class Signup_Verify_OTP extends Fragment implements SmsListener, PhoneAuthCallback {
 
     private static final long COUNTDOWN_DURATION = 30 * 1000;
     private static final long INTERVAL = 1000;
     private CountDownTimer countDownTimer;
     private TextView resendText, mobileText;
     private EditText otp;
-    private Button reset_btn;
-    private String email, firstName, lastName, password, mobile;
-    private Bundle userData;
+    private Button reset_btn, continue_btn;
+    private String mobile;
     private AuthenticationManager authenticationManager;
+    private ProgressBar progressBar;
 
     private Reciever reciever;
 
@@ -79,12 +68,14 @@ public class Signup_Verify_OTP extends Fragment implements SmsListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button continue_btn = view.findViewById(R.id.button19);
+        continue_btn = view.findViewById(R.id.button19);
         otp = view.findViewById(R.id.pinView);
 
         resendText = view.findViewById(R.id.textView22);
         mobileText = view.findViewById(R.id.textView21);
         reset_btn = view.findViewById(R.id.button20);
+
+        progressBar = view.findViewById(R.id.progressBar2);
 
         Bundle data = getArguments();
 
@@ -94,15 +85,7 @@ public class Signup_Verify_OTP extends Fragment implements SmsListener {
         }
 
         if (data != null) {
-            userData = data.getBundle(getString(R.string.user_bundle));
-
             mobile = data.getString(getString(R.string.mobile_bundle));
-
-            email = userData.getString(getString(R.string.email_bundle));
-            firstName = userData.getString(getString(R.string.fname_bundle));
-            lastName = userData.getString(getString(R.string.lname_bundle));
-            password = userData.getString(getString(R.string.password_bundle));
-
             authenticationManager = (AuthenticationManager) data.getSerializable(getString(R.string.authentication));
 
             mobileText.setText(getString(R.string.security_desc) + " " + generateMaskedMobile(mobile));
@@ -139,6 +122,18 @@ public class Signup_Verify_OTP extends Fragment implements SmsListener {
         otp.addTextChangedListener(watcher);
         startCountDownTimer();
 
+        continue_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProgressBar();
+                callAuth(otp.getText().toString());
+            }
+        });
+
+    }
+
+    private void callAuth(String otp) {
+        authenticationManager.callAuth(this, otp,getContext());
     }
 
     private void startCountDownTimer() {
@@ -185,5 +180,31 @@ public class Signup_Verify_OTP extends Fragment implements SmsListener {
     @Override
     public void onSmsReceived(String sms) {
         otp.setText(sms);
+    }
+
+    private void showProgressBar() {
+        if (progressBar != null) {
+            progressBar.setVisibility(View.VISIBLE);
+            otp.setEnabled(false);
+        }
+    }
+
+    private void hideProgressBar() {
+        if (progressBar != null) {
+            progressBar.setVisibility(View.INVISIBLE);
+            otp.setEnabled(true);
+        }
+    }
+
+    @Override
+    public void authSuccess() {
+        hideProgressBar();
+        AuthHandler.handleSuccess();
+    }
+
+    @Override
+    public void authFailed(String message) {
+        hideProgressBar();
+        AuthHandler.handleFailed(getContext(), message);
     }
 }

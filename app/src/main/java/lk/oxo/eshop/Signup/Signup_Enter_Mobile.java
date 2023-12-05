@@ -14,35 +14,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 import lk.oxo.eshop.R;
 import lk.oxo.eshop.model.User;
-import lk.oxo.eshop.util.AuthenticationManager;
+import lk.oxo.eshop.util.auth.AuthHandler;
+import lk.oxo.eshop.util.auth.AuthenticationManager;
+import lk.oxo.eshop.util.auth.PhoneAuthCallback;
 import lk.oxo.eshop.util.UIMode;
 import lk.oxo.eshop.util.Validation;
 
-public class Signup_Enter_Mobile extends Fragment {
+public class Signup_Enter_Mobile extends Fragment implements PhoneAuthCallback {
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks;
     private AuthenticationManager authenticationManager;
     private User user;
     private FirebaseAuth firebaseAuth;
     private Bundle user_bundle;
     private String mobile_text;
+    private ProgressBar progressBar;
+    private EditText mobile;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,10 +52,11 @@ public class Signup_Enter_Mobile extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        authenticationManager = new AuthenticationManager();
 
         Button continue_btn = view.findViewById(R.id.button18);
-        EditText mobile = view.findViewById(R.id.mobile_signup1);
+        mobile = view.findViewById(R.id.mobile_signup1);
+
+        progressBar = view.findViewById(R.id.progressBar);
 
 //        UI Customization
 
@@ -103,18 +100,21 @@ public class Signup_Enter_Mobile extends Fragment {
         continue_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showProgressBar();
                 mobile_text = mobile.getText().toString();
 
                 if (data != null) {
                     user_bundle = data.getBundle(getString(R.string.user_bundle));
-                    authenticationManager.createAccount(mobile_text, getActivity(), callbacks);
 
                     user = new User();
                     user.setEmail(user_bundle.getString(getString(R.string.email_bundle)));
                     user.setFname(user_bundle.getString(getString(R.string.fname_bundle)));
                     user.setLname(user_bundle.getString(getString(R.string.lname_bundle)));
-                    user.setPassword(user_bundle.getString(getString(R.string.password_bundle)));
-                    user.setMobile(user_bundle.getString(getString(R.string.mobile_bundle)));
+                    user.setPassword(data.getString(getString(R.string.password_bundle)));
+                    user.setMobile(mobile_text);
+
+                    authenticationManager = new AuthenticationManager(user);
+                    authenticationManager.createAccount(mobile_text, getActivity(), callbacks);
                 }
             }
         });
@@ -123,13 +123,14 @@ public class Signup_Enter_Mobile extends Fragment {
 
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                authenticationManager.createAccountAuth(phoneAuthCredential);
+                callAuth(phoneAuthCredential);
             }
 
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
                 Toast.makeText(getContext(), getString(R.string.user_creation_error) + " " + e.getMessage(),
                         Toast.LENGTH_LONG).show();
+                hideProgressBar();
             }
 
             @Override
@@ -141,6 +142,10 @@ public class Signup_Enter_Mobile extends Fragment {
                 callOtpFragment();
             }
         };
+    }
+
+    public void callAuth(PhoneAuthCredential phoneAuthCredential){
+        authenticationManager.createAccountAuth(phoneAuthCredential,this,getContext());
     }
 
     public void callOtpFragment() {
@@ -157,5 +162,31 @@ public class Signup_Enter_Mobile extends Fragment {
                 .replace(R.id.fragmentContainerView, verify_otp, null)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    private void showProgressBar() {
+        if (progressBar != null) {
+            progressBar.setVisibility(View.VISIBLE);
+            mobile.setEnabled(false);
+        }
+    }
+
+    private void hideProgressBar() {
+        if (progressBar != null) {
+            progressBar.setVisibility(View.INVISIBLE);
+            mobile.setEnabled(true);
+        }
+    }
+
+    @Override
+    public void authSuccess() {
+        hideProgressBar();
+        AuthHandler.handleSuccess();
+    }
+
+    @Override
+    public void authFailed(String message) {
+        hideProgressBar();
+        AuthHandler.handleFailed(getContext(),message);
     }
 }
