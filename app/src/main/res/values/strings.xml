@@ -39,6 +39,7 @@
     <string name="night">night</string>
 
     <!--    Bundle  -->
+    <string name="uid_bundle">uid</string>
     <string name="user_bundle">user</string>
     <string name="email_bundle">email</string>
     <string name="fname_bundle">fname</string>
@@ -77,4 +78,10 @@
     <string name="otp_error">You have entered an incorrect security code. Please try again</string>
 
     <string name="web_client_id">172493765045-ndhsima0jjvl2i3oabpvncuk6hgfongl.apps.googleusercontent.com</string>
+
+    <string name="link_account">Link account</string>
+    <string name="link_text">It looks like you already have an eShop account. Please enter you eShop password to link your Google account</string>
+    <string name="create_google_text">Review the Google details we will use to create your eBay account</string>
+    <string name="link_your_accounts">Link your accounts</string>
+    <string name="already_eshop">Already on eShop?\nLink an existing account</string>
 </resources>

@@ -104,13 +104,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email_or_mobile_text"
-                app:boxStrokeColor="@color/black"
                 app:boxStrokeWidthFocused="2dp"
-                app:endIconMode="clear_text"
-
-                app:endIconTint="@color/black"
-                app:hintTextColor="@color/black"
-                app:startIconDrawable="@drawable/user_24">
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/email_signin"
@@ -132,12 +127,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
-                app:boxStrokeColor="@color/black"
                 app:boxStrokeWidthFocused="2dp"
-                app:endIconMode="password_toggle"
-                app:endIconTint="@color/black"
-                app:hintTextColor="@color/black"
-                app:startIconDrawable="@drawable/lock_24">
+                app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password_signin"

@@ -2,6 +2,7 @@ package lk.oxo.eshop.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
@@ -61,23 +62,15 @@ public class GoogleSignIn {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     FirebaseUser user = firebaseAuth.getCurrentUser();
-//                    AuthResult result = task.getResult();
                     if (user != null) {
-//                        boolean newUser = result.getAdditionalUserInfo().isNewUser();
-//                        if(newUser){
-//                            showLinkAccount();
-//                        }else{
-//                            FirebaseUser user = firebaseAuth.getCurrentUser();
-//                        }
                         checkUserExists(user.getEmail(), new FirebaseValidationCallback() {
                             @Override
                             public void onResult(boolean exists) {
                                 account.hideProgressBar();
                                 if (exists) {
-                                    System.out.println(user.getDisplayName());
-                                    showLinkAccount();
+                                    showLinkAccount(user.getEmail());
                                 } else {
-                            showCreateAccount();
+                            showCreateAccount(user.getUid(),user.getEmail(),user.getDisplayName());
                                 }
                             }
                         });
@@ -92,8 +85,12 @@ public class GoogleSignIn {
         });
     }
 
-    private void showLinkAccount() {
+    private void showLinkAccount(String email) {
+        Bundle data = new Bundle();
+        data.putString(context.getString(R.string.email_bundle),email);
+
         LinkAccount linkAccount = new LinkAccount();
+        linkAccount.setArguments(data);
         account.getActivity().getSupportFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragmentContainerView, linkAccount, null)
@@ -101,8 +98,24 @@ public class GoogleSignIn {
                 .commit();
     }
 
-    private void showCreateAccount(){
+    private void showCreateAccount(String uid,String email,String displayName){
+        String[] strings = displayName.split(" ");
+        String first_name="",last_name="";
+
+        if(strings.length >= 2){
+            first_name = strings[0];
+            last_name = strings[strings.length - 1];
+        }
+
+        Bundle data = new Bundle();
+        data.putString(context.getString(R.string.uid_bundle),uid);
+        data.putString(context.getString(R.string.email_bundle),email);
+        data.putString(context.getString(R.string.fname_bundle),first_name);
+        data.putString(context.getString(R.string.lname_bundle),last_name);
+
         Create_Account_Google create_account_google = new Create_Account_Google();
+        create_account_google.setArguments(data);
+
         account.getActivity().getSupportFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragmentContainerView, create_account_google, null)
