@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -132,8 +133,9 @@ public class Signup_Enter_Mobile extends Fragment implements PhoneAuthCallback, 
                         user.setPassword(data.getString(getString(R.string.password_bundle)));
                         user.setMobile(mobile_text);
 
-                        authenticationManager = new AuthenticationManager(user);
+                        authenticationManager = AuthenticationManager.getInstance(user);
                         authenticationManager.createAccount(mobile_text, getActivity(), callbacks);
+
                     }
                 }
             }
@@ -171,7 +173,6 @@ public class Signup_Enter_Mobile extends Fragment implements PhoneAuthCallback, 
         Bundle data_second = new Bundle();
         data_second.putBundle(getString(R.string.user_bundle), user_bundle);
         data_second.putString(getString(R.string.mobile_bundle), mobile_text);
-        data_second.putSerializable(getString(R.string.authentication), authenticationManager);
 
         Signup_Verify_OTP verify_otp = new Signup_Verify_OTP();
         verify_otp.setArguments(data_second);

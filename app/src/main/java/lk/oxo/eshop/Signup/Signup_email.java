@@ -160,10 +160,12 @@ public class Signup_email extends Fragment implements ProgressBarInterface {
         emailField.setBoxStrokeErrorColor(ColorStateList.valueOf(getResources().getColor(R.color.red)));
         emailField.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.red)));
     }
+
     @Override
     public void hideErrorMessage(){
         emailField.setErrorEnabled(false);
     }
+
     private boolean checkEmail(String email){
         final boolean[] check = {false};
         CollectionReference users = firestore.collection(getString(R.string.users));

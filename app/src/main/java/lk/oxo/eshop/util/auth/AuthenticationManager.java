@@ -20,6 +20,8 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -27,36 +29,37 @@ import java.util.concurrent.TimeUnit;
 import lk.oxo.eshop.R;
 import lk.oxo.eshop.model.User;
 
-public class AuthenticationManager implements Serializable {
+public class AuthenticationManager {
 
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-
     private String verificationId;
     private PhoneAuthProvider.ForceResendingToken resendingToken;
     private User user;
     private Context context;
+    private static AuthenticationManager manager;
 
-    public AuthenticationManager(User user) {
+    private AuthenticationManager(User user) {
         this.user = user;
     }
 
-    public String getVerificationId() {
-        return verificationId;
+    public static AuthenticationManager getInstance(User user) {
+        manager = new AuthenticationManager(user);
+        return manager;
+    }
+
+    public static AuthenticationManager getInstance() {
+        return manager;
     }
 
     public void setVerificationId(String verificationId) {
         this.verificationId = verificationId;
     }
 
-    public PhoneAuthProvider.ForceResendingToken getResendingToken() {
-        return resendingToken;
-    }
-
     public void setResendingToken(PhoneAuthProvider.ForceResendingToken resendingToken) {
         this.resendingToken = resendingToken;
     }
 
-    public void createAccountAuth(PhoneAuthCredential credential, PhoneAuthCallback callback,Context context) {
+    public void createAccountAuth(PhoneAuthCredential credential, PhoneAuthCallback callback, Context context) {
         this.context = context;
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -73,7 +76,7 @@ public class AuthenticationManager implements Serializable {
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
+                                            if (task.isSuccessful()) {
                                                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                                                 DocumentReference users = db
                                                         .collection(context.getString(R.string.users))
@@ -94,19 +97,19 @@ public class AuthenticationManager implements Serializable {
                                                                         .authFailed(context.getString(R.string.auth_fail_1));
                                                             }
                                                         });
-                                            }else
+                                            } else
                                                 callback.authFailed(context.getString(R.string.auth_fail_2));
                                         }
                                     });
-                        }else{
+                        } else {
                             callback.authFailed();
                         }
                     }
                 });
     }
 
-    private HashMap<String , String> getUserMap(){
-        HashMap<String , String> userMap = new HashMap<>();
+    private HashMap<String, String> getUserMap() {
+        HashMap<String, String> userMap = new HashMap<>();
         userMap.put(context.getString(R.string.email_collection), user.getEmail());
         userMap.put(context.getString(R.string.fname_collection), user.getFname());
         userMap.put(context.getString(R.string.lname_collection), user.getLname());
@@ -126,21 +129,23 @@ public class AuthenticationManager implements Serializable {
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
-    public void callAuth(PhoneAuthCallback callback,String otp,Context context){
+    public void callAuth(PhoneAuthCallback callback, String otp, Context context) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, otp);
-        createAccountAuth(credential,callback,context);
+        createAccountAuth(credential, callback, context);
     }
 
-    public void resendOtp(){
+    public void resendOtp() {
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(firebaseAuth)
                 .setForceResendingToken(resendingToken)
                 .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     @Override
                     public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
                     }
+
                     @Override
                     public void onVerificationFailed(@NonNull FirebaseException e) {
                     }
+
                     @Override
                     public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                         super.onCodeSent(s, forceResendingToken);

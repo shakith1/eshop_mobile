@@ -89,13 +89,13 @@ public class Signup_Verify_OTP extends Fragment implements SmsListener, PhoneAut
 
         if (data != null) {
             String mobile = data.getString(getString(R.string.mobile_bundle));
-            authenticationManager = (AuthenticationManager) data.getSerializable(getString(R.string.authentication));
-
+            authenticationManager = AuthenticationManager.getInstance();
             mobileText.setText(getString(R.string.security_desc) + " " + generateMaskedMobile(mobile));
         }
 
         TextWatcher watcher = new TextWatcher() {
             String otp_;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 otp_ = s.toString();
@@ -146,7 +146,7 @@ public class Signup_Verify_OTP extends Fragment implements SmsListener, PhoneAut
     }
 
     private void callAuth(String otp) {
-        authenticationManager.callAuth(this, otp,getContext());
+        authenticationManager.callAuth(this, otp, getContext());
     }
 
     private void startCountDownTimer() {
