@@ -134,9 +134,12 @@ public class AuthenticationManager {
         createAccountAuth(credential, callback, context);
     }
 
-    public void resendOtp() {
+    public void resendOtp(Activity activity) {
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(firebaseAuth)
                 .setForceResendingToken(resendingToken)
+                .setTimeout(60L, TimeUnit.SECONDS)
+                .setPhoneNumber(user.getMobile())
+                .setActivity(activity)
                 .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     @Override
                     public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {

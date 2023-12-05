@@ -33,6 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import lk.oxo.eshop.R;
 import lk.oxo.eshop.model.User;
+import lk.oxo.eshop.util.FirebaseValidationCallback;
 import lk.oxo.eshop.util.ProgressBarInterface;
 import lk.oxo.eshop.util.auth.AuthHandler;
 import lk.oxo.eshop.util.auth.AuthenticationManager;
@@ -119,25 +120,31 @@ public class Signup_Enter_Mobile extends Fragment implements PhoneAuthCallback, 
             public void onClick(View v) {
                 showProgressBar();
                 mobile_text = mobile.getText().toString();
-                if (checkMobile(mobile_text)) {
-                    hideProgressBar();
-                    showErrorMessage();
-                } else {
-                    if (data != null) {
-                        user_bundle = data.getBundle(getString(R.string.user_bundle));
 
-                        user = new User();
-                        user.setEmail(user_bundle.getString(getString(R.string.email_bundle)));
-                        user.setFname(user_bundle.getString(getString(R.string.fname_bundle)));
-                        user.setLname(user_bundle.getString(getString(R.string.lname_bundle)));
-                        user.setPassword(data.getString(getString(R.string.password_bundle)));
-                        user.setMobile(mobile_text);
+                checkMobile(mobile_text, new FirebaseValidationCallback() {
+                    @Override
+                    public void onResult(boolean exists) {
+                        if(exists){
+                            hideProgressBar();
+                            showErrorMessage();
+                        }else{
+                            if (data != null) {
+                                user_bundle = data.getBundle(getString(R.string.user_bundle));
 
-                        authenticationManager = AuthenticationManager.getInstance(user);
-                        authenticationManager.createAccount(mobile_text, getActivity(), callbacks);
+                                user = new User();
+                                user.setEmail(user_bundle.getString(getString(R.string.email_bundle)));
+                                user.setFname(user_bundle.getString(getString(R.string.fname_bundle)));
+                                user.setLname(user_bundle.getString(getString(R.string.lname_bundle)));
+                                user.setPassword(data.getString(getString(R.string.password_bundle)));
+                                user.setMobile(mobile_text);
 
+                                authenticationManager = AuthenticationManager.getInstance(user);
+                                authenticationManager.createAccount(mobile_text, getActivity(), callbacks);
+
+                            }
+                        }
                     }
-                }
+                });
             }
         });
 
@@ -230,8 +237,7 @@ public class Signup_Enter_Mobile extends Fragment implements PhoneAuthCallback, 
 
     }
 
-    private boolean checkMobile(String mobile) {
-        final boolean[] check = {false};
+    private void checkMobile(String mobile, FirebaseValidationCallback callback) {
         CollectionReference users = firestore.collection(getString(R.string.users));
         Query query = users.whereEqualTo(getString(R.string.mobile_collection), mobile);
         query.get()
@@ -240,13 +246,11 @@ public class Signup_Enter_Mobile extends Fragment implements PhoneAuthCallback, 
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             QuerySnapshot result = task.getResult();
-                            if (result != null && !result.isEmpty())
-                                check[0] = true;
-                            else
-                                check[0] = false;
-                        }
+                            boolean exists = result != null && !result.isEmpty();
+                            callback.onResult(exists);
+                        } else
+                            callback.onResult(false);
                     }
                 });
-        return check[0];
     }
 }

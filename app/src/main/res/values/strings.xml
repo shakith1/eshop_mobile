@@ -73,6 +73,6 @@
     <string name="auth_fail_2">Error updating user profile</string>
 
     <string name="email_error">This email address has already been used to create eShop account. Please enter a different email account</string>
-    <string name="mobile_error">This mobile has already been used to create eShop account. Please enter a different mobile number</string>
+    <string name="mobile_error">This mobile number has already been used to create eShop account. Please enter a different mobile number</string>
     <string name="otp_error">You have entered an incorrect security code. Please try again</string>
 </resources>

@@ -140,7 +140,7 @@ public class Signup_Verify_OTP extends Fragment implements SmsListener, PhoneAut
         resend_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                authenticationManager.resendOtp();
+                authenticationManager.resendOtp(getActivity());
             }
         });
     }

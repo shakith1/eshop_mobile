@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "172493765045",
+    "project_id": "eshop-cd4f1",
+    "storage_bucket": "eshop-cd4f1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:172493765045:android:551df62f04986d732dc1fc",
+        "android_client_info": {
+          "package_name": "lk.oxo.eshop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCR68B9git7LjQ-GyuNl_EppMAuTR2672U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

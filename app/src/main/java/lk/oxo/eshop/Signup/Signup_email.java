@@ -30,6 +30,7 @@ import lk.oxo.eshop.Login.Signin_main;
 import lk.oxo.eshop.R;
 import lk.oxo.eshop.model.User;
 import lk.oxo.eshop.util.ButtonColor;
+import lk.oxo.eshop.util.FirebaseValidationCallback;
 import lk.oxo.eshop.util.ProgressBarInterface;
 import lk.oxo.eshop.util.UIMode;
 import lk.oxo.eshop.util.Validation;
@@ -38,8 +39,8 @@ public class Signup_email extends Fragment implements ProgressBarInterface {
     private FirebaseFirestore firestore;
     private TextInputLayout emailField;
     private ProgressBar progressBar;
-    private EditText email,fname,lname;
-    private Button signin,continueBtn;
+    private EditText email, fname, lname;
+    private Button signin, continueBtn;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,8 +54,8 @@ public class Signup_email extends Fragment implements ProgressBarInterface {
 
         firestore = FirebaseFirestore.getInstance();
 
-         signin = view.findViewById(R.id.button13);
-         continueBtn = view.findViewById(R.id.button11);
+        signin = view.findViewById(R.id.button13);
+        continueBtn = view.findViewById(R.id.button11);
         emailField = view.findViewById(R.id.textInput_layout_1);
         progressBar = view.findViewById(R.id.progressBar3);
 
@@ -71,14 +72,15 @@ public class Signup_email extends Fragment implements ProgressBarInterface {
                             getContext(), getString(R.string.night)));
         }
 
-         email = view.findViewById(R.id.email_signup);
-         fname = view.findViewById(R.id.fname_signup);
-         lname = view.findViewById(R.id.lname_signup);
+        email = view.findViewById(R.id.email_signup);
+        fname = view.findViewById(R.id.fname_signup);
+        lname = view.findViewById(R.id.lname_signup);
 
         TextWatcher watcher = new TextWatcher() {
             String emailEnter;
+
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after){
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 emailEnter = s.toString();
             }
 
@@ -118,26 +120,31 @@ public class Signup_email extends Fragment implements ProgressBarInterface {
             @Override
             public void onClick(View v) {
                 showProgressBar();
-                if(checkEmail(email.getText().toString())){
-                    hideProgressBar();
-                    showErrorMessage();
-                }else {
-                    Bundle data = new Bundle();
-                    data.putString(getString(R.string.email_bundle), email.getText().toString());
-                    data.putString(getString(R.string.fname_bundle), fname.getText().toString());
-                    data.putString(getString(R.string.lname_bundle), lname.getText().toString());
+                checkEmail(email.getText().toString(), new FirebaseValidationCallback() {
+                    @Override
+                    public void onResult(boolean exists) {
+                        if(exists){
+                            hideProgressBar();
+                            showErrorMessage();
+                        }else{
+                            Bundle data = new Bundle();
+                            data.putString(getString(R.string.email_bundle), email.getText().toString());
+                            data.putString(getString(R.string.fname_bundle), fname.getText().toString());
+                            data.putString(getString(R.string.lname_bundle), lname.getText().toString());
 
-                    Signup_Enter_Password enter_password = new Signup_Enter_Password();
-                    enter_password.setArguments(data);
+                            Signup_Enter_Password enter_password = new Signup_Enter_Password();
+                            enter_password.setArguments(data);
 
-                    hideProgressBar();
+                            hideProgressBar();
 
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .setReorderingAllowed(true)
-                            .replace(R.id.fragmentContainerView, enter_password, null)
-                            .addToBackStack(null)
-                            .commit();
-                }
+                            getActivity().getSupportFragmentManager().beginTransaction()
+                                    .setReorderingAllowed(true)
+                                    .replace(R.id.fragmentContainerView, enter_password, null)
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
+                    }
+                });
             }
         });
 
@@ -154,7 +161,7 @@ public class Signup_email extends Fragment implements ProgressBarInterface {
     }
 
     @Override
-    public void showErrorMessage(){
+    public void showErrorMessage() {
         emailField.setErrorEnabled(true);
         emailField.setError(getString(R.string.email_error));
         emailField.setBoxStrokeErrorColor(ColorStateList.valueOf(getResources().getColor(R.color.red)));
@@ -162,28 +169,25 @@ public class Signup_email extends Fragment implements ProgressBarInterface {
     }
 
     @Override
-    public void hideErrorMessage(){
+    public void hideErrorMessage() {
         emailField.setErrorEnabled(false);
     }
 
-    private boolean checkEmail(String email){
-        final boolean[] check = {false};
+    private void checkEmail(String email, FirebaseValidationCallback callback) {
         CollectionReference users = firestore.collection(getString(R.string.users));
         Query query = users.whereEqualTo(getString(R.string.email_collection), email);
         query.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             QuerySnapshot result = task.getResult();
-                            if(result != null && !result.isEmpty())
-                                check[0] = true;
-                            else
-                                check[0] = false;
-                        }
+                            boolean exists = result != null && !result.isEmpty();
+                            callback.onResult(exists);
+                        } else
+                            callback.onResult(false);
                     }
                 });
-        return check[0];
     }
 
     @Override
