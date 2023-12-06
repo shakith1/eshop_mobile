@@ -14,14 +14,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import lk.oxo.eshop.R;
 import lk.oxo.eshop.Signup.Create_Account;
+import lk.oxo.eshop.util.ProgressBarInterface;
 import lk.oxo.eshop.util.UIMode;
 import lk.oxo.eshop.util.Validation;
+import lk.oxo.eshop.util.auth.EmailSignin;
 
-public class Signin extends Fragment {
-
+public class Signin extends Fragment implements ProgressBarInterface {
+    private ProgressBar progressBar;
+    private EditText email,password;
+    private Button signin,reset,create;
+    private TextView error;
+    private Signin sign = this;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,11 +43,15 @@ public class Signin extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        EditText email = view.findViewById(R.id.email_signin);
-        EditText password = view.findViewById(R.id.password_signin);
-        Button signin = view.findViewById(R.id.button3);
+         email= view.findViewById(R.id.email_signin);
+         password = view.findViewById(R.id.password_signin);
+         signin = view.findViewById(R.id.button3);
+         reset = view.findViewById(R.id.button4);
+         create = view.findViewById(R.id.button6);
 
-        String email_, password_;
+         error = view.findViewById(R.id.textView28);
+
+         progressBar = view.findViewById(R.id.progressBar7);
 
         if (UIMode.getUiModeFlags(getContext()) != Configuration.UI_MODE_NIGHT_NO){
             signin.setBackgroundResource(R.drawable.button_background_continue_night_disable);
@@ -54,12 +68,15 @@ public class Signin extends Fragment {
                 String email1 = email.getText().toString().trim();
                 String password1 = password.getText().toString().trim();
 
-                if(!email1.isEmpty() && !password1.isEmpty() && Validation.checkEmail(email1)){
+                if(!email1.isEmpty() && !password1.isEmpty() &&
+                        (Validation.checkEmail(email1) || Validation.checkMobile(email1))){
                     signin.setEnabled(true);
                     signin.setBackgroundResource(R.drawable.button_background_continue_night);
                 }else{
                     signin.setBackgroundResource(R.drawable.button_background_continue_night_disable);
                 }
+
+                hideErrorMessage();
             }
 
             @Override
@@ -71,7 +88,7 @@ public class Signin extends Fragment {
         email.addTextChangedListener(watcher);
         password.addTextChangedListener(watcher);
 
-        view.findViewById(R.id.button6).setOnClickListener(new View.OnClickListener() {
+        create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager().beginTransaction()
@@ -81,5 +98,43 @@ public class Signin extends Fragment {
                         .commit();
             }
         });
+
+        signin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EmailSignin signin1 = new EmailSignin(sign, getContext());
+                signin1.signinUser(email.getText().toString(),password.getText().toString());
+            }
+        });
+    }
+
+    @Override
+    public void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+        email.setEnabled(false);
+        password.setEnabled(false);
+        signin.setEnabled(false);
+        reset.setEnabled(false);
+        create.setEnabled(false);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.INVISIBLE);
+        email.setEnabled(true);
+        password.setEnabled(true);
+        signin.setEnabled(true);
+        reset.setEnabled(true);
+        create.setEnabled(true);
+    }
+
+    @Override
+    public void showErrorMessage() {
+        error.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideErrorMessage() {
+        error.setVisibility(View.GONE);
     }
 }

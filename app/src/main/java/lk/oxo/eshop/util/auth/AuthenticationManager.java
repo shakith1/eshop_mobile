@@ -2,6 +2,7 @@ package lk.oxo.eshop.util.auth;
 
 import android.app.Activity;
 import android.content.Context;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -10,12 +11,15 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -87,7 +91,14 @@ public class AuthenticationManager {
                                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                             @Override
                                                             public void onSuccess(Void unused) {
-                                                                callback.authSuccess();
+                                                                AuthCredential credential1 = EmailAuthProvider.getCredential(user.getEmail(), user.getPassword());
+                                                                firebaseUser.linkWithCredential(credential1)
+                                                                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                                                    @Override
+                                                                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                                                                        callback.authSuccess();
+                                                                                    }
+                                                                                });
                                                             }
                                                         })
                                                         .addOnFailureListener(new OnFailureListener() {
@@ -107,7 +118,6 @@ public class AuthenticationManager {
                     }
                 });
     }
-
     private HashMap<String, String> getUserMap() {
         HashMap<String, String> userMap = new HashMap<>();
         userMap.put(context.getString(R.string.email_collection), user.getEmail());

@@ -87,4 +87,5 @@
 
     <string name="authentication_phone">phone</string>
     <string name="authentication_google">google</string>
+    <string name="sign_error">Oops, that doesn\'t match.</string>
 </resources>
