@@ -80,8 +80,11 @@
     <string name="web_client_id">172493765045-ndhsima0jjvl2i3oabpvncuk6hgfongl.apps.googleusercontent.com</string>
 
     <string name="link_account">Link account</string>
-    <string name="link_text">It looks like you already have an eShop account. Please enter you eShop password to link your Google account</string>
-    <string name="create_google_text">Review the Google details we will use to create your eBay account</string>
+    <string name="link_text">It looks like you already have an eShop account. Please enter your eShop password to link your Google account</string>
+    <string name="create_google_text">Review the Google details we will use to create your eShop account</string>
     <string name="link_your_accounts">Link your accounts</string>
     <string name="already_eshop">Already on eShop?\nLink an existing account</string>
+
+    <string name="authentication_phone">phone</string>
+    <string name="authentication_google">google</string>
 </resources>

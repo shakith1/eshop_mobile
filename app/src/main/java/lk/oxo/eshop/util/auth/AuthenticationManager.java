@@ -114,6 +114,8 @@ public class AuthenticationManager {
         userMap.put(context.getString(R.string.fname_collection), user.getFname());
         userMap.put(context.getString(R.string.lname_collection), user.getLname());
         userMap.put(context.getString(R.string.mobile_collection), user.getMobile());
+        userMap.put(context.getString(R.string.authentication),
+                context.getString(R.string.authentication_phone));
 
         return userMap;
     }

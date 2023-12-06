@@ -18,12 +18,10 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
@@ -33,7 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import lk.oxo.eshop.R;
 import lk.oxo.eshop.model.User;
-import lk.oxo.eshop.util.FirebaseValidationCallback;
+import lk.oxo.eshop.util.auth.google.FirebaseValidationCallback;
 import lk.oxo.eshop.util.ProgressBarInterface;
 import lk.oxo.eshop.util.auth.AuthHandler;
 import lk.oxo.eshop.util.auth.AuthenticationManager;
@@ -123,7 +121,7 @@ public class Signup_Enter_Mobile extends Fragment implements PhoneAuthCallback, 
 
                 checkMobile(mobile_text, new FirebaseValidationCallback() {
                     @Override
-                    public void onResult(boolean exists) {
+                    public void onResult(boolean exists,String authentication) {
                         if(exists){
                             hideProgressBar();
                             showErrorMessage();
@@ -247,9 +245,9 @@ public class Signup_Enter_Mobile extends Fragment implements PhoneAuthCallback, 
                         if (task.isSuccessful()) {
                             QuerySnapshot result = task.getResult();
                             boolean exists = result != null && !result.isEmpty();
-                            callback.onResult(exists);
+                            callback.onResult(exists,null);
                         } else
-                            callback.onResult(false);
+                            callback.onResult(false,null);
                     }
                 });
     }

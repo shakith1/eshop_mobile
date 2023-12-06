@@ -22,7 +22,7 @@ import lk.oxo.eshop.util.ButtonColor;
 import lk.oxo.eshop.util.ProgressBarInterface;
 import lk.oxo.eshop.util.UIMode;
 import lk.oxo.eshop.util.Validation;
-import lk.oxo.eshop.util.auth.GoogleAuthentication;
+import lk.oxo.eshop.util.auth.google.GoogleAuthentication;
 
 public class Create_Account_Google extends Fragment implements ProgressBarInterface {
     private EditText email, fname, lname;
@@ -111,12 +111,13 @@ public class Create_Account_Google extends Fragment implements ProgressBarInterf
         fname.setText(fname_);
         lname.setText(lname_);
 
-        firebaseUser = new FirebaseUser(uid_,email_,fname_,lname_);
         googleAuthentication = new GoogleAuthentication(this,getContext());
 
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                firebaseUser = new FirebaseUser(uid_,email.getText().toString(),
+                        fname.getText().toString(),lname.getText().toString());
                 googleAuthentication.createAccount(firebaseUser);
             }
         });

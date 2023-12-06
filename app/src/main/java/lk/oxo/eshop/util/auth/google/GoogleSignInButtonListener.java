@@ -1,4 +1,4 @@
-package lk.oxo.eshop.util;
+package lk.oxo.eshop.util.auth.google;
 
 import android.app.PendingIntent;
 import android.content.Context;

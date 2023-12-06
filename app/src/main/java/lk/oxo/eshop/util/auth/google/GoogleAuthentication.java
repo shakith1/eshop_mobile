@@ -1,4 +1,4 @@
-package lk.oxo.eshop.util.auth;
+package lk.oxo.eshop.util.auth.google;
 
 import android.content.Context;
 
@@ -11,6 +11,7 @@ import java.util.HashMap;
 import lk.oxo.eshop.R;
 import lk.oxo.eshop.Signup.Create_Account_Google;
 import lk.oxo.eshop.model.FirebaseUser;
+import lk.oxo.eshop.util.auth.AuthHandler;
 
 public class GoogleAuthentication {
     private Create_Account_Google create_account_google;
@@ -32,6 +33,7 @@ public class GoogleAuthentication {
         map.put(context.getString(R.string.email_collection),user.getEmail());
         map.put(context.getString(R.string.fname_collection),user.getFname());
         map.put(context.getString(R.string.lname_collection),user.getLname());
+        map.put(context.getString(R.string.authentication),context.getString(R.string.authentication_google));
 
         document.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

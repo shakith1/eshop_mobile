@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,9 +27,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import lk.oxo.eshop.Login.Signin_main;
 import lk.oxo.eshop.R;
-import lk.oxo.eshop.model.User;
 import lk.oxo.eshop.util.ButtonColor;
-import lk.oxo.eshop.util.FirebaseValidationCallback;
+import lk.oxo.eshop.util.auth.google.FirebaseValidationCallback;
 import lk.oxo.eshop.util.ProgressBarInterface;
 import lk.oxo.eshop.util.UIMode;
 import lk.oxo.eshop.util.Validation;
@@ -122,7 +120,7 @@ public class Signup_email extends Fragment implements ProgressBarInterface {
                 showProgressBar();
                 checkEmail(email.getText().toString(), new FirebaseValidationCallback() {
                     @Override
-                    public void onResult(boolean exists) {
+                    public void onResult(boolean exists,String authentication) {
                         if(exists){
                             hideProgressBar();
                             showErrorMessage();
@@ -183,9 +181,9 @@ public class Signup_email extends Fragment implements ProgressBarInterface {
                         if (task.isSuccessful()) {
                             QuerySnapshot result = task.getResult();
                             boolean exists = result != null && !result.isEmpty();
-                            callback.onResult(exists);
+                            callback.onResult(exists,null);
                         } else
-                            callback.onResult(false);
+                            callback.onResult(false,null);
                     }
                 });
     }
