@@ -102,8 +102,9 @@ public class Signin extends Fragment implements ProgressBarInterface {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EmailSignin signin1 = new EmailSignin(sign, getContext());
-                signin1.signinUser(email.getText().toString(),password.getText().toString());
+                EmailSignin emailSignin = new EmailSignin(sign, getContext(),
+                        email.getText().toString(),password.getText().toString());
+                emailSignin.chooseSignInMethod();
             }
         });
     }
