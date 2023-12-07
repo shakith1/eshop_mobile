@@ -13,14 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.HashMap;
+
 import lk.oxo.eshop.R;
 import lk.oxo.eshop.Signup.Create_Account;
+import lk.oxo.eshop.util.Preferences;
 import lk.oxo.eshop.util.ProgressBarInterface;
 import lk.oxo.eshop.util.UIMode;
 import lk.oxo.eshop.util.Validation;
@@ -32,6 +36,8 @@ public class Signin extends Fragment implements ProgressBarInterface {
     private Button signin,reset,create;
     private TextView error;
     private Signin sign = this;
+    private CheckBox checkBox;
+    private boolean check = false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,6 +58,7 @@ public class Signin extends Fragment implements ProgressBarInterface {
          error = view.findViewById(R.id.textView28);
 
          progressBar = view.findViewById(R.id.progressBar7);
+         checkBox = view.findViewById(R.id.checkBox);
 
         if (UIMode.getUiModeFlags(getContext()) != Configuration.UI_MODE_NIGHT_NO){
             signin.setBackgroundResource(R.drawable.button_background_continue_night_disable);
@@ -88,6 +95,16 @@ public class Signin extends Fragment implements ProgressBarInterface {
         email.addTextChangedListener(watcher);
         password.addTextChangedListener(watcher);
 
+        HashMap<String, String> data = Preferences.retrieveData(getContext());
+        if(data != null){
+            String email1 = data.get(getString(R.string.email_bundle));
+            String password1 = data.get(getString(R.string.password_bundle));
+
+            email.setText(email1);
+            password.setText(password1);
+            checkBox.setChecked(true);
+        }
+
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,8 +119,10 @@ public class Signin extends Fragment implements ProgressBarInterface {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(checkBox.isChecked())
+                    check = true;
                 EmailSignin emailSignin = new EmailSignin(sign, getContext(),
-                        email.getText().toString(),password.getText().toString());
+                        email.getText().toString(),password.getText().toString(),check);
                 emailSignin.chooseSignInMethod();
             }
         });
@@ -117,6 +136,7 @@ public class Signin extends Fragment implements ProgressBarInterface {
         signin.setEnabled(false);
         reset.setEnabled(false);
         create.setEnabled(false);
+        checkBox.setEnabled(false);
     }
 
     @Override
@@ -127,6 +147,7 @@ public class Signin extends Fragment implements ProgressBarInterface {
         signin.setEnabled(true);
         reset.setEnabled(true);
         create.setEnabled(true);
+        checkBox.setEnabled(true);
     }
 
     @Override

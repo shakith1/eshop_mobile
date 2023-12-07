@@ -88,4 +88,10 @@
     <string name="authentication_phone">phone</string>
     <string name="authentication_google">google</string>
     <string name="sign_error">Oops, that doesn\'t match.</string>
+
+    <string name="preference_name">data</string>
+    <string name="keystore_type">AndroidKeyStore</string>
+    <string name="encryption_exception">Error while encrypting</string>
+    <string name="encryption_alias">EShopEncryptionKey</string>
+    <string name="encryption_cipher">AES/CBC/PKCS7Padding</string>
 </resources>

@@ -14,14 +14,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import lk.oxo.eshop.R;
+import lk.oxo.eshop.util.ProgressBarInterface;
 import lk.oxo.eshop.util.UIMode;
 import lk.oxo.eshop.util.Validation;
+import lk.oxo.eshop.util.auth.EmailSignin;
 
-public class LinkAccount extends Fragment {
-    private EditText email,password;
-    private Button link,reset;
+public class LinkAccount extends Fragment implements ProgressBarInterface {
+    private EditText email, password;
+    private ProgressBar progressBar;
+    private Button link, reset;
+    private TextView error;
+    private LinkAccount linkAccount = this;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,8 +44,10 @@ public class LinkAccount extends Fragment {
         password = view.findViewById(R.id.password_signin_google);
         link = view.findViewById(R.id.button10);
         reset = view.findViewById(R.id.button15);
+        error = view.findViewById(R.id.textView29);
+        progressBar = view.findViewById(R.id.progressBar8);
 
-        if (UIMode.getUiModeFlags(getContext()) != Configuration.UI_MODE_NIGHT_NO){
+        if (UIMode.getUiModeFlags(getContext()) != Configuration.UI_MODE_NIGHT_NO) {
             link.setBackgroundResource(R.drawable.button_background_continue_night_disable);
         }
 
@@ -52,12 +62,14 @@ public class LinkAccount extends Fragment {
                 String email1 = email.getText().toString().trim();
                 String password1 = password.getText().toString().trim();
 
-                if(!email1.isEmpty() && !password1.isEmpty() && Validation.checkEmail(email1)){
+                if (!email1.isEmpty() && !password1.isEmpty() && Validation.checkEmail(email1)) {
                     link.setEnabled(true);
                     link.setBackgroundResource(R.drawable.button_background_continue_night);
-                }else{
+                } else {
                     link.setBackgroundResource(R.drawable.button_background_continue_night_disable);
                 }
+
+                hideErrorMessage();
             }
 
             @Override
@@ -74,7 +86,44 @@ public class LinkAccount extends Fragment {
         Bundle data = getArguments();
         String email_ = data.getString(getString(R.string.email_bundle));
 
-        if(!email_.isEmpty())
+        if (!email_.isEmpty())
             email.setText(email_);
+
+        link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EmailSignin emailSignin = new EmailSignin(linkAccount, getContext(),
+                        email.getText().toString(), password.getText().toString(),false);
+                emailSignin.signinUserEmail();
+            }
+        });
+    }
+
+    @Override
+    public void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+        email.setEnabled(false);
+        password.setEnabled(false);
+        link.setEnabled(false);
+        reset.setEnabled(false);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.INVISIBLE);
+        email.setEnabled(true);
+        password.setEnabled(true);
+        link.setEnabled(true);
+        reset.setEnabled(true);
+    }
+
+    @Override
+    public void showErrorMessage() {
+        error.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideErrorMessage() {
+        error.setVisibility(View.GONE);
     }
 }

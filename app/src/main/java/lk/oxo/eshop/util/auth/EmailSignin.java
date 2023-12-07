@@ -17,6 +17,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import lk.oxo.eshop.R;
 import lk.oxo.eshop.util.ProgressBarInterface;
+import lk.oxo.eshop.util.Preferences;
 import lk.oxo.eshop.util.Validation;
 import lk.oxo.eshop.util.auth.google.FirebaseValidationCallback;
 
@@ -26,14 +27,16 @@ public class EmailSignin {
     private ProgressBarInterface progressBarInterface;
     private Context context;
     private String email,password;
+    private boolean check;
 
     public EmailSignin(ProgressBarInterface progressBarInterface, Context context,
-                       String email,String password) {
+                       String email,String password, boolean check) {
         this.progressBarInterface = progressBarInterface;
         this.context = context;
         this.firebaseAuth = FirebaseAuth.getInstance();
         this.email = email;
         this.password = password;
+        this.check = check;
         this.firestore = FirebaseFirestore.getInstance();
     }
 
@@ -74,7 +77,7 @@ public class EmailSignin {
                     }
                 });
     }
-    private void signinUserEmail(){
+    public void signinUserEmail(){
         firebaseAuth.signInWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -83,6 +86,8 @@ public class EmailSignin {
                             progressBarInterface.hideProgressBar();
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             if(user!=null){
+                                if(check)
+                                    Preferences.storeData(email,password,context);
                                 AuthHandler.handleSuccess(context);
                             }else{
                                 progressBarInterface.hideProgressBar();
