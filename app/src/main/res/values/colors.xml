@@ -7,4 +7,7 @@
     <color name="progress_bar">#FF9800</color>
     <color name="button_disable">#DBDDDF</color>
     <color name="button_disable_night">#858687</color>
+
+    <color name="grey">#E4E2E2</color>
+    <color name="spinner">#B1B0B0</color>
 </resources>
