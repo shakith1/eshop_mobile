@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/spinner_background"
     tools:context=".product.SingleProductView">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,6 +23,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:ignore="ScrollViewSize">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="32dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView30" />
 
                 <TextView
                     android:id="@+id/textView41"
@@ -174,29 +182,19 @@
                         android:paddingEnd="10dp"
                         android:src="@drawable/icons8_dropdown_40" /> <!-- Replace with your dropdown icon -->
                 </FrameLayout>
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="0dp"
-                    android:layout_height="250dp"
-                    android:layout_marginTop="16dp"
-                    android:scaleType="fitCenter"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView30"
-                    tools:src="@tools:sample/avatars" />
 
                 <TextView
                     android:id="@+id/textView31"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="24dp"
                     android:fontFamily="@font/montserrat_bold"
                     android:text="@string/title"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+                    app:layout_constraintTop_toBottomOf="@+id/pager" />
 
                 <TextView
                     android:id="@+id/textView30"

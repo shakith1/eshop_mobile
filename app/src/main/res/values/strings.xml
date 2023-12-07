@@ -95,7 +95,7 @@
     <string name="encryption_alias">EShopEncryptionKey</string>
     <string name="encryption_cipher">AES/CBC/PKCS7Padding</string>
 
-<!--    Product-->
+    <!--    Product-->
     <string name="item">Item</string>
     <string name="title">Title</string>
     <string name="price">Price</string>
@@ -105,4 +105,15 @@
     <string name="category">Category</string>
     <string name="buy_it_now">Buy it now</string>
     <string name="description">Description</string>
+
+    <string name="bottom_nav_home_title">Home</string>
+    <string name="bottom_nav_user_title">My eShop</string>
+    <string name="bottom_nav_inbox_title">Inbox</string>
+    <string name="bottom_nav_selling_title">Selling</string>
+
+    <string name="search_eshop">Search on eShop</string>
+
+    <string name="my_eshop">My eShop</string>
+    <string name="watchlist">Watchlist</string>
+    <string name="cart">Cart</string>
 </resources>
