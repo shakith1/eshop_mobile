@@ -1,6 +1,7 @@
 package lk.oxo.eshop.Signup;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
@@ -82,6 +83,15 @@ public class Create_Account extends Fragment implements ProgressBarInterface {
 
         listener = new GoogleSignInButtonListener(getContext(), signInClient, signInLauncher);
         google.setOnClickListener(listener);
+
+        business_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClassName("lk.oxo.eshop_seller","lk.oxo.eshop_seller.MainActivity");
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

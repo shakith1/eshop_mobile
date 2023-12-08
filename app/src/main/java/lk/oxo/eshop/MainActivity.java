@@ -17,20 +17,25 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import lk.oxo.eshop.model.User;
 import lk.oxo.eshop.navigation.Home;
 import lk.oxo.eshop.navigation.Inbox;
 import lk.oxo.eshop.navigation.SellerMain;
 import lk.oxo.eshop.navigation.UserMain;
+import lk.oxo.eshop.util.LoggedUser;
+import lk.oxo.eshop.util.LoginPreferences;
 
 public class MainActivity extends AppCompatActivity {
-
+private LoginPreferences loginPreferences;
     private NavigationBarView navigationView;
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         navigationView = findViewById(R.id.bottomNavigationView);
+        loginPreferences = new LoginPreferences(this);
 
         int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
 
@@ -39,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             getWindow().getDecorView().setSystemUiVisibility(0);
         }
+
+        user = loginPreferences.getUser();
+        LoggedUser.setLoggedUser(user);
 
         navigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

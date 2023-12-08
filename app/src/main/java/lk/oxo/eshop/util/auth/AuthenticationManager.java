@@ -32,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 
 import lk.oxo.eshop.R;
 import lk.oxo.eshop.model.User;
+import lk.oxo.eshop.util.LoginPreferences;
 
 public class AuthenticationManager {
 
@@ -91,6 +92,8 @@ public class AuthenticationManager {
                                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                             @Override
                                                             public void onSuccess(Void unused) {
+                                                                LoginPreferences loginPreferences = new LoginPreferences(context);
+                                                                loginPreferences.storeUser(getUser(userMap));
                                                                 AuthCredential credential1 = EmailAuthProvider.getCredential(user.getEmail(), user.getPassword());
                                                                 firebaseUser.linkWithCredential(credential1)
                                                                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -117,6 +120,16 @@ public class AuthenticationManager {
                         }
                     }
                 });
+    }
+
+    private User getUser(HashMap<String,String> map){
+        User user1 = new User();
+        user1.setEmail(map.get(context.getString(R.string.email_collection)));
+        user1.setFname(map.get(context.getString(R.string.fname_collection)));
+        user1.setLname(map.get(context.getString(R.string.lname_collection)));
+        user1.setMobile(map.get(context.getString(R.string.mobile_collection)));
+
+        return user1;
     }
     private HashMap<String, String> getUserMap() {
         HashMap<String, String> userMap = new HashMap<>();

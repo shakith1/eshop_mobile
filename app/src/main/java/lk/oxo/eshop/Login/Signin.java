@@ -38,6 +38,7 @@ public class Signin extends Fragment implements ProgressBarInterface {
     private Signin sign = this;
     private CheckBox checkBox;
     private boolean check = false;
+    private Signin signinFragment = this;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -123,7 +124,7 @@ public class Signin extends Fragment implements ProgressBarInterface {
                     check = true;
                 EmailSignin emailSignin = new EmailSignin(sign, getContext(),
                         email.getText().toString(),password.getText().toString(),check);
-                emailSignin.chooseSignInMethod();
+                emailSignin.chooseSignInMethod(signinFragment);
             }
         });
     }

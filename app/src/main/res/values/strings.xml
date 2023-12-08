@@ -116,4 +116,12 @@
     <string name="my_eshop">My eShop</string>
     <string name="watchlist">Watchlist</string>
     <string name="cart">Cart</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="user_preferences">user_login</string>
+    <string name="is_user_logged">IsUserLogged</string>
+    <string name="logout">Logout</string>
+    <string name="logout_message">Are you sure you want to logout?</string>
 </resources>
