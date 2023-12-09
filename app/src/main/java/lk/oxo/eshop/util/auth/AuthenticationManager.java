@@ -2,7 +2,6 @@ package lk.oxo.eshop.util.auth;
 
 import android.app.Activity;
 import android.content.Context;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -19,20 +18,17 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.checkerframework.checker.units.qual.A;
-
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-import lk.oxo.eshop.R;
 import lk.oxo.eshop.model.User;
+import lk.oxo.eshop.util.EmailSender;
 import lk.oxo.eshop.util.LoginPreferences;
+import lk.oxo.eshop.R;
 
 public class AuthenticationManager {
 
@@ -42,6 +38,7 @@ public class AuthenticationManager {
     private User user;
     private Context context;
     private static AuthenticationManager manager;
+    private FirebaseUser firebaseUser;
 
     private AuthenticationManager(User user) {
         this.user = user;
@@ -71,7 +68,7 @@ public class AuthenticationManager {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            FirebaseUser firebaseUser = task.getResult().getUser();
+                            firebaseUser = task.getResult().getUser();
 
                             UserProfileChangeRequest changeRequest = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(user.getFname() + " " + user.getLname())
@@ -96,12 +93,13 @@ public class AuthenticationManager {
                                                                 loginPreferences.storeUser(getUser(userMap));
                                                                 AuthCredential credential1 = EmailAuthProvider.getCredential(user.getEmail(), user.getPassword());
                                                                 firebaseUser.linkWithCredential(credential1)
-                                                                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                                                                    @Override
-                                                                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                                                                        callback.authSuccess();
-                                                                                    }
-                                                                                });
+                                                                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                                                new EmailSender(user.getEmail(), user.getFname(), context).execute();
+                                                                                callback.authSuccess();
+                                                                            }
+                                                                        });
                                                             }
                                                         })
                                                         .addOnFailureListener(new OnFailureListener() {
@@ -122,8 +120,9 @@ public class AuthenticationManager {
                 });
     }
 
-    private User getUser(HashMap<String,String> map){
-        User user1 = new User();
+    private lk.oxo.eshop.model.FirebaseUser getUser(HashMap<String,String> map){
+        lk.oxo.eshop.model.FirebaseUser user1 = new lk.oxo.eshop.model.FirebaseUser();
+        user1.setUid(firebaseUser.getUid());
         user1.setEmail(map.get(context.getString(R.string.email_collection)));
         user1.setFname(map.get(context.getString(R.string.fname_collection)));
         user1.setLname(map.get(context.getString(R.string.lname_collection)));
@@ -133,6 +132,7 @@ public class AuthenticationManager {
     }
     private HashMap<String, String> getUserMap() {
         HashMap<String, String> userMap = new HashMap<>();
+
         userMap.put(context.getString(R.string.email_collection), user.getEmail());
         userMap.put(context.getString(R.string.fname_collection), user.getFname());
         userMap.put(context.getString(R.string.lname_collection), user.getLname());

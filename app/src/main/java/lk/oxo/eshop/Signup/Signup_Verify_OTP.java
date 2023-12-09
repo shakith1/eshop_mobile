@@ -24,6 +24,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import lk.oxo.eshop.R;
+import lk.oxo.eshop.util.EmailSender;
 import lk.oxo.eshop.util.ProgressBarInterface;
 import lk.oxo.eshop.util.auth.AuthHandler;
 import lk.oxo.eshop.util.auth.AuthenticationManager;

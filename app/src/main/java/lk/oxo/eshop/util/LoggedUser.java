@@ -7,12 +7,13 @@ import android.content.Intent;
 import lk.oxo.eshop.Login.Signin_Home;
 import lk.oxo.eshop.Login.Signin_main;
 import lk.oxo.eshop.MainActivity;
+import lk.oxo.eshop.model.FirebaseUser;
 import lk.oxo.eshop.model.User;
 
 public class LoggedUser {
-    private static User userData;
+    private static FirebaseUser userData;
 
-    public static void setLoggedUser(User user){
+    public static void setLoggedUser(FirebaseUser user){
        userData = user;
     }
 

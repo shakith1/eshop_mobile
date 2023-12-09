@@ -97,7 +97,8 @@ public class EmailSignin {
                                             if(user !=null) {
                                                 progressBarInterface.hideProgressBar();
                                                 LoginPreferences login = new LoginPreferences(context);
-                                                login.storeUser(user);
+                                                login.storeUser(new
+                                                        lk.oxo.eshop.model.FirebaseUser(firebaseAuth.getUid(), user));
                                                 if (check)
                                                     Preferences.storeData(email, password, context);
                                                 AuthHandler.handleSuccess(context);

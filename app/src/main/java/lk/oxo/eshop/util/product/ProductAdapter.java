@@ -1,5 +1,6 @@
 package lk.oxo.eshop.util.product;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,12 +45,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(ProductViewHolder holder, int position) {
         Product product = productList.get(position);
+        List<Uri> images = product.getImages();
+        
         Picasso.get()
-                .load("https://picsum.photos/seed/picsum/200/300")
+                .load(Uri.parse(String.valueOf(images.get(2))))
                 .fit().centerCrop()
                 .into(holder.productImage);
         holder.title.setText(product.getTitle());
-        holder.price.setText(product.getPrice());
+        holder.price.setText(String.valueOf(product.getPrice()));
     }
 
     @Override

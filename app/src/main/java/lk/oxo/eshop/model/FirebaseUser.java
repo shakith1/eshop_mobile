@@ -1,16 +1,19 @@
 package lk.oxo.eshop.model;
 
-public class FirebaseUser {
+public class FirebaseUser extends User {
     private String uid;
-    private String email;
-    private String fname;
-    private String lname;
 
+    public FirebaseUser() {
+
+    }
     public FirebaseUser(String uid, String email, String fname, String lname) {
+        super(email, fname, lname);
         this.uid = uid;
-        this.email = email;
-        this.fname = fname;
-        this.lname = lname;
+    }
+
+    public FirebaseUser(String uid, User user) {
+        super(user.getEmail(), user.getFname(), user.getLname(), user.getMobile());
+        this.uid = uid;
     }
 
     public String getUid() {
@@ -21,27 +24,4 @@ public class FirebaseUser {
         this.uid = uid;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getFname() {
-        return fname;
-    }
-
-    public void setFname(String fname) {
-        this.fname = fname;
-    }
-
-    public String getLname() {
-        return lname;
-    }
-
-    public void setLname(String lname) {
-        this.lname = lname;
-    }
 }

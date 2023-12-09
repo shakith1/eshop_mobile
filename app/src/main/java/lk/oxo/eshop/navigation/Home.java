@@ -24,6 +24,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import lk.oxo.eshop.R;
 import lk.oxo.eshop.Signup.Create_Account;
@@ -32,15 +33,18 @@ import lk.oxo.eshop.components.UserCart;
 import lk.oxo.eshop.components.WatchList;
 import lk.oxo.eshop.model.Product;
 import lk.oxo.eshop.model.User;
+import lk.oxo.eshop.product.ProductHelper;
 import lk.oxo.eshop.util.LoggedUser;
 import lk.oxo.eshop.util.LoginPreferences;
 import lk.oxo.eshop.util.product.ProductAdapter;
+import lk.oxo.eshop.util.product.ProductRecieveCallback;
 
 
 public class Home extends Fragment {
 private RecyclerView recyclerView;
     private SearchView searchView;
     private ImageView cart;
+    private List<Product> product;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,13 +66,18 @@ private RecyclerView recyclerView;
 ////        Typeface fromAsset = Typeface.createFromAsset(getActivity().getAssets(), "font/montserrat_regular.ttf");
 ////        EditText searchSrc = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
 ////        searchSrc.setTypeface(fromAsset);
-        ArrayList<Product> product = new ArrayList<>();
-        product.add(new Product("Mobile Phone","Rs.30"));
-        product.add(new Product("Mobile Phone","Rs.30"));
 
-        ProductAdapter adapter = new ProductAdapter(product);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
-        recyclerView.setAdapter(adapter);
+        ProductHelper helper = new ProductHelper();
+        helper.retrieveProducts(new ProductRecieveCallback() {
+            @Override
+            public void onRecieved(List<Product> productList) {
+                product = productList;
+
+                ProductAdapter adapter = new ProductAdapter(product);
+                recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+                recyclerView.setAdapter(adapter);
+            }
+        });
 
         cart.setOnClickListener(new View.OnClickListener() {
             @Override

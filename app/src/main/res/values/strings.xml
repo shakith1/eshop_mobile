@@ -124,4 +124,30 @@
     <string name="is_user_logged">IsUserLogged</string>
     <string name="logout">Logout</string>
     <string name="logout_message">Are you sure you want to logout?</string>
+
+    <string name="products_firebase">products</string>
+    <string name="product_title">title</string>
+    <string name="product_description">description</string>
+    <string name="product_price">price</string>
+    <string name="product_qty">quantity</string>
+    <string name="product_images">images</string>
+
+    <string name="sender_email">8a59edd35fbef9</string>
+    <string name="sender_password">929e9679f85798</string>
+
+    <string name="base64Image">[base64Image]</string>
+    <string name="recipent">[Recipient Name]</string>
+
+    <string name="smtp_auth">mail.smtp.auth</string>
+    <string name="smtp_starttls">mail.smtp.starttls.enable</string>
+    <string name="smtp_host">mail.smtp.host</string>
+    <string name="smtp_port">mail.smtp.port</string>
+
+    <string name="smtp_auth_value">true</string>
+    <string name="smtp_starttls_value">true</string>
+    <string name="smtp_host_value">sandbox.smtp.mailtrap.io</string>
+    <string name="smtp_port_value">2525</string>
+
+    <string name="sender_email_address">info@eshop.lk</string>
+    <string name="email_subject">,your eShop adventure has just begun</string>
 </resources>

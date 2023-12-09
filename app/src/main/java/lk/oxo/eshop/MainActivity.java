@@ -17,18 +17,20 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import lk.oxo.eshop.model.FirebaseUser;
 import lk.oxo.eshop.model.User;
 import lk.oxo.eshop.navigation.Home;
 import lk.oxo.eshop.navigation.Inbox;
 import lk.oxo.eshop.navigation.SellerMain;
 import lk.oxo.eshop.navigation.UserMain;
+import lk.oxo.eshop.util.EmailSender;
 import lk.oxo.eshop.util.LoggedUser;
 import lk.oxo.eshop.util.LoginPreferences;
 
 public class MainActivity extends AppCompatActivity {
 private LoginPreferences loginPreferences;
     private NavigationBarView navigationView;
-    private User user;
+    private FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

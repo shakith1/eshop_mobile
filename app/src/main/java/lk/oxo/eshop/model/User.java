@@ -7,6 +7,21 @@ public class User {
     private String lname;
     private String password;
 
+    public User() {
+    }
+    public User(String email, String fname, String lname) {
+        this.email = email;
+        this.fname = fname;
+        this.lname = lname;
+    }
+
+    public User(String email, String fname, String lname,String mobile) {
+        this.email = email;
+        this.fname = fname;
+        this.lname = lname;
+        this.mobile = mobile;
+    }
+
     public String getEmail() {
         return email;
     }
