@@ -75,7 +75,7 @@ private RecyclerView recyclerView;
             public void onRecieved(List<Product> productList) {
                 product = productList;
 
-                ProductAdapter adapter = new ProductAdapter(product,listener);
+                ProductAdapter adapter = new ProductAdapter(product,listener,getContext());
                 recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
                 recyclerView.setAdapter(adapter);
             }

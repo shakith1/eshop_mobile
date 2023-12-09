@@ -21,11 +21,6 @@
         android:theme="@style/Theme.EShop"
         tools:targetApi="31">
         <activity
-            android:name=".Test"
-            android:exported="true" >
-
-        </activity>
-        <activity
             android:name=".Login.Signin_Home"
             android:exported="false"></activity>
         <activity

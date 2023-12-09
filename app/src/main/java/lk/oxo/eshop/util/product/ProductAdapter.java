@@ -1,6 +1,7 @@
 package lk.oxo.eshop.util.product;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +23,12 @@ import lk.oxo.eshop.model.Product;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private List<Product> productList;
     private OnItemClickListener listener;
+    private Context context;
 
-    public ProductAdapter(List<Product> productList, OnItemClickListener listener) {
+    public ProductAdapter(List<Product> productList, OnItemClickListener listener, Context context) {
         this.productList = productList;
         this.listener = listener;
+        this.context = context;
     }
 
     public interface OnItemClickListener{
@@ -57,13 +60,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public void onBindViewHolder(ProductViewHolder holder,int position) {
         Product product = productList.get(position);
         List<Uri> images = product.getImages();
-        
+        int startIndex = images.size() / 2;
+
         Picasso.get()
-                .load(Uri.parse(String.valueOf(images.get(2))))
+                .load(Uri.parse(String.valueOf(images.get(startIndex))))
                 .fit().centerCrop()
                 .into(holder.productImage);
         holder.title.setText(product.getTitle());
-        holder.price.setText(String.valueOf(product.getPrice()));
+        holder.price.setText(context.getString(R.string.currency)+ " "+ String.valueOf(product.getPrice())+"0");
 
         holder.mainProductView.setOnClickListener(new View.OnClickListener() {
             @Override
