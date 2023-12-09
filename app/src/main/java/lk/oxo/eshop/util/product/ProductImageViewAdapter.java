@@ -1,5 +1,6 @@
 package lk.oxo.eshop.util.product;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,9 @@ import java.util.List;
 import lk.oxo.eshop.R;
 
 public class ProductImageViewAdapter extends RecyclerView.Adapter<ProductImageViewAdapter.ImageViewHolder> {
-    private List<String> imageUrls;
+    private List<Uri> imageUrls;
 
-    public ProductImageViewAdapter(List<String> imageUrls) {
+    public ProductImageViewAdapter(List<Uri> imageUrls) {
         this.imageUrls = imageUrls;
     }
 
@@ -30,7 +31,7 @@ public class ProductImageViewAdapter extends RecyclerView.Adapter<ProductImageVi
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        String imageUrl = imageUrls.get(position);
+        Uri imageUrl = imageUrls.get(position);
         Picasso.get()
                 .load(imageUrl)
                 .resize(300,300)

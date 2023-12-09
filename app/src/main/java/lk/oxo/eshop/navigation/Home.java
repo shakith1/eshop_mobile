@@ -34,17 +34,19 @@ import lk.oxo.eshop.components.WatchList;
 import lk.oxo.eshop.model.Product;
 import lk.oxo.eshop.model.User;
 import lk.oxo.eshop.product.ProductHelper;
+import lk.oxo.eshop.product.SingleProductView;
 import lk.oxo.eshop.util.LoggedUser;
 import lk.oxo.eshop.util.LoginPreferences;
 import lk.oxo.eshop.util.product.ProductAdapter;
 import lk.oxo.eshop.util.product.ProductRecieveCallback;
 
 
-public class Home extends Fragment {
+public class Home extends Fragment implements ProductAdapter.OnItemClickListener{
 private RecyclerView recyclerView;
     private SearchView searchView;
     private ImageView cart;
     private List<Product> product;
+    private ProductAdapter.OnItemClickListener listener = this;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,13 +69,13 @@ private RecyclerView recyclerView;
 ////        EditText searchSrc = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
 ////        searchSrc.setTypeface(fromAsset);
 
-        ProductHelper helper = new ProductHelper();
+        ProductHelper helper = new ProductHelper(getContext());
         helper.retrieveProducts(new ProductRecieveCallback() {
             @Override
             public void onRecieved(List<Product> productList) {
                 product = productList;
 
-                ProductAdapter adapter = new ProductAdapter(product);
+                ProductAdapter adapter = new ProductAdapter(product,listener);
                 recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
                 recyclerView.setAdapter(adapter);
             }
@@ -97,5 +99,20 @@ private RecyclerView recyclerView;
                     .addToBackStack(null)
                     .commit();
         }
+    }
+
+    @Override
+    public void onItemClick(String productId) {
+        SingleProductView singleProductView = new SingleProductView();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(getContext().getString(R.string.product_id),productId);
+        singleProductView.setArguments(bundle);
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.fragmentContainerView2, singleProductView,null)
+                .addToBackStack(null)
+                .commit();
     }
 }

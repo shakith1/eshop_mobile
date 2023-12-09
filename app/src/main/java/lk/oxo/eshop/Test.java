@@ -33,8 +33,8 @@ public class Test extends AppCompatActivity {
         imagelist.add("https://picsum.photos/id/237/200/300");
         imagelist.add("https://picsum.photos/id/237/200/300");
         imagelist.add("https://picsum.photos/id/237/200/300");
-        ProductImageViewAdapter adapter = new ProductImageViewAdapter(imagelist);
-        pager2.setAdapter(adapter);
+//        ProductImageViewAdapter adapter = new ProductImageViewAdapter(imagelist);
+//        pager2.setAdapter(adapter);
 ////        imagelist.add("R.drawable.icons8_dropdown_40");
 ////        imagelist.add("R.drawable.icons8_dropdown_40");
 //

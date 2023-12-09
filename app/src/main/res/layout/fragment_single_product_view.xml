@@ -89,17 +89,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/button22" />
 
                 <TextView
-                    android:id="@+id/textView35"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/montserrat"
-                    android:text="@string/condition"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@+id/textView34"
-                    app:layout_constraintTop_toBottomOf="@+id/textView41" />
-
-                <TextView
                     android:id="@+id/textView37"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -108,18 +97,7 @@
                     android:text="@string/quantity"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@+id/textView34"
-                    app:layout_constraintTop_toBottomOf="@+id/textView35" />
-
-                <TextView
-                    android:id="@+id/textView39"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/montserrat"
-                    android:text="@string/category"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@+id/textView34"
-                    app:layout_constraintTop_toBottomOf="@+id/textView37" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView41" />
 
                 <TextView
                     android:id="@+id/textView38"
@@ -129,28 +107,6 @@
                     android:fontFamily="@font/montserrat"
                     android:text="@string/quantity"
                     android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@+id/textView36"
-                    app:layout_constraintTop_toBottomOf="@+id/textView36" />
-
-                <TextView
-                    android:id="@+id/textView40"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/montserrat"
-                    android:text="@string/category"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@+id/textView36"
-                    app:layout_constraintTop_toBottomOf="@+id/textView38" />
-
-                <TextView
-                    android:id="@+id/textView36"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/montserrat"
-                    android:text="@string/condition"
-                    android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@+id/textView42"
                     app:layout_constraintTop_toBottomOf="@+id/textView42" />
 
@@ -159,12 +115,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/spinner_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView39">
+                    app:layout_constraintTop_toBottomOf="@+id/textView37">
 
                     <Spinner
                         android:id="@+id/spinner"

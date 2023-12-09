@@ -150,4 +150,7 @@
 
     <string name="sender_email_address">info@eshop.lk</string>
     <string name="email_subject">,your eShop adventure has just begun</string>
+
+    <string name="product_id">product_id</string>
+    <string name="currency">Rs. </string>
 </resources>
