@@ -20,7 +20,7 @@ import android.widget.TextView;
 import lk.oxo.eshop.MainActivity;
 import lk.oxo.eshop.R;
 import lk.oxo.eshop.components.Purchases;
-import lk.oxo.eshop.components.UserCart;
+import lk.oxo.eshop.components.cart.UserCart;
 import lk.oxo.eshop.components.WatchList;
 import lk.oxo.eshop.model.User;
 import lk.oxo.eshop.util.LoggedUser;

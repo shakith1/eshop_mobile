@@ -1,4 +1,4 @@
-package lk.oxo.eshop.product;
+package lk.oxo.eshop.util.product;
 
 import android.content.Context;
 import android.net.Uri;
@@ -68,11 +68,9 @@ public class ProductHelper {
     public void retrieveProducts(ProductRecieveCallback callback) {
         CollectionReference productCollection = firestore
                 .collection(context.getString(R.string.products_firebase));
-        System.out.println(productCollection);
         productCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                System.out.println("ds");
                 if (task.isSuccessful()) {
                     List<Product> productList = new ArrayList<>();
                     System.out.println(productList);

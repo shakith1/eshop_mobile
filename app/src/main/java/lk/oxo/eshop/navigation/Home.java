@@ -1,42 +1,31 @@
 package lk.oxo.eshop.navigation;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SearchView;
-import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lk.oxo.eshop.R;
-import lk.oxo.eshop.Signup.Create_Account;
-import lk.oxo.eshop.components.Purchases;
-import lk.oxo.eshop.components.UserCart;
-import lk.oxo.eshop.components.WatchList;
+import lk.oxo.eshop.components.cart.UserCart;
+import lk.oxo.eshop.model.CartItem;
 import lk.oxo.eshop.model.Product;
-import lk.oxo.eshop.model.User;
-import lk.oxo.eshop.product.ProductHelper;
+import lk.oxo.eshop.util.cart.CartAdapter;
+import lk.oxo.eshop.util.cart.CartHelper;
+import lk.oxo.eshop.util.product.ProductHelper;
 import lk.oxo.eshop.product.SingleProductView;
 import lk.oxo.eshop.util.LoggedUser;
-import lk.oxo.eshop.util.LoginPreferences;
 import lk.oxo.eshop.util.product.ProductAdapter;
 import lk.oxo.eshop.util.product.ProductRecieveCallback;
 
@@ -80,6 +69,7 @@ private RecyclerView recyclerView;
                 recyclerView.setAdapter(adapter);
             }
         });
+
 
         cart.setOnClickListener(new View.OnClickListener() {
             @Override

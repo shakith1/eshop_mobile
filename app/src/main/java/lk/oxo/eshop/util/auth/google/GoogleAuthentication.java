@@ -11,6 +11,7 @@ import java.util.HashMap;
 import lk.oxo.eshop.R;
 import lk.oxo.eshop.Signup.Create_Account_Google;
 import lk.oxo.eshop.model.FirebaseUser;
+import lk.oxo.eshop.util.LoginPreferences;
 import lk.oxo.eshop.util.auth.AuthHandler;
 
 public class GoogleAuthentication {
@@ -39,6 +40,8 @@ public class GoogleAuthentication {
             @Override
             public void onSuccess(Void unused) {
                 create_account_google.hideProgressBar();
+                LoginPreferences loginPreferences = new LoginPreferences(context);
+                loginPreferences.storeUser(user);
                AuthHandler.handleSuccess(context);
             }
         });

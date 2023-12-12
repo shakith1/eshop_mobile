@@ -151,6 +151,19 @@
     <string name="sender_email_address">info@eshop.lk</string>
     <string name="email_subject">,your eShop adventure has just begun</string>
 
-    <string name="product_id">product_id</string>
     <string name="currency">Rs. </string>
+    <string name="product_id">id</string>
+
+    <string name="cart_title">eShop shopping cart</string>
+    <string name="cart_empty">You don\'t have any items in your basket. Let\'s go shopping.</string>
+
+    <string name="qty">Qty:</string>
+    <string name="remove">Remove</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="go_checkout">Go to checkout</string>
+
+    <string name="cart_collection">carts</string>
+    <string name="cart_product">product</string>
+    <string name="cart_qty">quantity</string>
+    <string name="cart_item_collection">cart</string>
 </resources>

@@ -17,7 +17,7 @@ public class LoggedUser {
        userData = user;
     }
 
-    public static User getLoggedUser(){
+    public static FirebaseUser getLoggedUser(){
         if(userData!= null)
         return userData;
         else return null;

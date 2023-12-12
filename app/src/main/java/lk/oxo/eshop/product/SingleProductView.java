@@ -12,14 +12,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import lk.oxo.eshop.R;
+import lk.oxo.eshop.model.CartItem;
 import lk.oxo.eshop.model.Product;
+import lk.oxo.eshop.util.LoggedUser;
+import lk.oxo.eshop.util.cart.CartHelper;
+import lk.oxo.eshop.util.product.ProductHelper;
 import lk.oxo.eshop.util.product.ProductImageViewAdapter;
 import lk.oxo.eshop.util.product.SingleProductRecieveCallback;
 
@@ -28,7 +35,9 @@ public class SingleProductView extends Fragment {
     private ViewPager2 pager;
     private ProductImageViewAdapter imageViewAdapter;
     private Product productMain;
-    private TextView title,price,quantity,description;
+    private TextView title, price, quantity, description;
+    private Product product_;
+    private Button cart;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,26 +52,21 @@ public class SingleProductView extends Fragment {
         description = view.findViewById(R.id.textView42);
         quantity = view.findViewById(R.id.textView38);
 
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(getContext(), R.layout.custom_spinner);
-        adapter.add(getString(R.string.quantity));
-
-        adapter.setDropDownViewResource(R.layout.custom_spinner_list);
-        spinner.setAdapter(adapter);
-
         Bundle bundle = getArguments();
-        if(bundle != null){
+        if (bundle != null) {
             String id = bundle.getString(getString(R.string.product_id));
-            if(!id.isEmpty()){
+            if (!id.isEmpty()) {
                 ProductHelper helper = new ProductHelper(getContext());
                 helper.retrieveProductById(id, new SingleProductRecieveCallback() {
                     @Override
                     public void onRecieved(Product product) {
+                        product_ = product;
                         ArrayList<Uri> imagelist = new ArrayList<>();
 
                         List<Uri> images = product.getImages();
                         int startIndex = images.size() / 2;
 
-                        for(int i=startIndex;i<images.size();i++){
+                        for (int i = startIndex; i < images.size(); i++) {
                             imagelist.add(Uri.parse(String.valueOf(images.get(i))));
                         }
 
@@ -70,9 +74,18 @@ public class SingleProductView extends Fragment {
                         pager.setAdapter(imageViewAdapter);
 
                         title.setText(product.getTitle());
-                        price.setText(getContext().getString(R.string.currency)+" "+product.getPrice()+"0");
+                        price.setText(getContext().getString(R.string.currency) + " " + product.getPrice() + "0");
                         description.setText(product.getDescription());
                         quantity.setText(String.valueOf(product.getQuantity()));
+
+//                      Custom Spinner Values
+
+                        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(getContext(), R.layout.custom_spinner);
+                        for (int i = 0; i < product.getQuantity(); i++)
+                            adapter.add(getString(R.string.quantity) + ": " + (i + 1));
+
+                        adapter.setDropDownViewResource(R.layout.custom_spinner_list);
+                        spinner.setAdapter(adapter);
                     }
                 });
             }
@@ -84,14 +97,32 @@ public class SingleProductView extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//
-//
-////        Header Image
-//        ArrayList<String> imagelist = new ArrayList<>();
-//        imagelist.add("https://picsum.photos/id/237/200/300");
-//        imagelist.add("https://picsum.photos/seed/picsum/200/300");
-//
-//        imageViewAdapter = new ProductImageViewAdapter(imagelist);
-//        pager.setAdapter(imageViewAdapter);
+        cart = view.findViewById(R.id.button23);
+        cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(LoggedUser.isUserLogged()) {
+                    String selectedQty = spinner.getSelectedItem().toString();
+                    CartItem cartItem = new CartItem(product_, Long.parseLong(selectedQty.substring(selectedQty.indexOf(":") + 2)));
+                    CartHelper helper = new CartHelper(cartItem, getContext());
+                    helper.saveCart(new CartHelper.OnCartSavedCallback() {
+                        @Override
+                        public void onSaved() {
+                            Snackbar snackbar = Snackbar.make(view, "Product added to cart", Snackbar.LENGTH_SHORT);
+
+                            snackbar.setAction("View Cart", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                }
+                            });
+                            snackbar.show();
+                        }
+                    });
+                }else{
+                    LoggedUser.loadLogin(getActivity());
+                }
+            }
+        });
     }
 }

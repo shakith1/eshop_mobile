@@ -1,11 +1,15 @@
 package lk.oxo.eshop.model;
 
+import java.util.List;
+
 public class User {
     private String email;
     private String mobile;
     private String fname;
     private String lname;
     private String password;
+
+    private List<CartItem> cartItems;
 
     public User() {
     }
@@ -60,5 +64,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 }

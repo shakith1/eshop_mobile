@@ -46,19 +46,7 @@ public class Encryption {
             keyStore = KeyStore.getInstance(context.getString(R.string.keystore_type));
             keyStore.load(null);
             keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, context.getString(R.string.keystore_type));
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
-            Toast.makeText(context, context.getString(R.string.encryption_exception), Toast.LENGTH_SHORT).show();
-        } catch (CertificateException e) {
-            e.printStackTrace();
-            Toast.makeText(context, context.getString(R.string.encryption_exception), Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(context, context.getString(R.string.encryption_exception), Toast.LENGTH_SHORT).show();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            Toast.makeText(context, context.getString(R.string.encryption_exception), Toast.LENGTH_SHORT).show();
-        } catch (NoSuchProviderException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, context.getString(R.string.encryption_exception), Toast.LENGTH_SHORT).show();
         }
