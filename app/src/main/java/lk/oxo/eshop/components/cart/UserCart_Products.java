@@ -22,7 +22,6 @@ import lk.oxo.eshop.util.cart.CartHelper;
 import lk.oxo.eshop.util.cart.CartTotalListener;
 
 public class UserCart_Products extends Fragment {
-
     private RecyclerView cartView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

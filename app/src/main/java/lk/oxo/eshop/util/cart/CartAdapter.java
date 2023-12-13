@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import lk.oxo.eshop.R;
+import lk.oxo.eshop.components.cart.UserCart_Empty;
 import lk.oxo.eshop.components.cart.UserCart_Products_Main;
 import lk.oxo.eshop.model.CartItem;
 
@@ -70,6 +71,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 CartHelper cartHelper = new CartHelper(context);
                 cartHelper.removeCart(cartItem);
                 main.updateTotal(getTotalPrice());
+                if (cartItems.isEmpty()) {
+                    main.getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragmentContainerView3, UserCart_Empty.class, null)
+                            .commit();
+                }
             }
         });
 
