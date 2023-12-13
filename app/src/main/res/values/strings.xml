@@ -166,4 +166,6 @@
     <string name="cart_product">product</string>
     <string name="cart_qty">quantity</string>
     <string name="cart_item_collection">cart</string>
+
+    <string name="cart_product_product_id">product.id</string>
 </resources>

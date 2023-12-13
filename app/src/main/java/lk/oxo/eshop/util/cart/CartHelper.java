@@ -49,32 +49,6 @@ public class CartHelper {
     }
 
     public void saveCart(OnCartSavedCallback callback) {
-//        CollectionReference collection = firestore.collection(context.getString(R.string.cart_collection))
-//                .document(LoggedUser.getLoggedUser().getUid())
-//                .collection(context.getString(R.string.cart_item_collection));
-//
-//        collection.add(cartItem).
-//                addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                    @Override
-//                    public void onSuccess(DocumentReference documentReference) {
-//                        callback.onSaved();
-//                    }
-//                });
-
-//            DocumentReference document = firestore.collection(context.getString(R.string.users))
-//                    .document(LoggedUser.getLoggedUser().getUid());
-//
-//            HashMap<String, Object> map = new HashMap<>();
-//            map.put(context.getString(R.string.cart_product), cartItem.getProduct());
-//            map.put(context.getString(R.string.cart_qty), cartItem.getQuantity());
-//
-//            document.collection(context.getString(R.string.cart_item_collection)).add(map)
-//                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                        @Override
-//                        public void onSuccess(DocumentReference documentReference) {
-//                            callback.onSaved();
-//                        }
-//                    });
         DocumentReference document = firestore.collection(context.getString(R.string.users))
                 .document(LoggedUser.getLoggedUser().getUid())
                 .collection(context.getString(R.string.cart_item_collection)).document();
@@ -126,6 +100,24 @@ public class CartHelper {
         product.setImages(imageList);
 
         return product;
+    }
+
+    public void removeCart(CartItem cartItem){
+        DocumentReference document = firestore.collection(context.getString(R.string.users))
+                .document(LoggedUser.getLoggedUser().getUid());
+        document.collection(context.getString(R.string.cart_item_collection))
+                .whereEqualTo(context.getString(R.string.cart_product_product_id),cartItem.getProduct().getId())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                documentSnapshot.getReference().delete();
+                            }
+                        }
+                    }
+                });
     }
     public void getCartDetailsRealtime(){
         DocumentReference document = firestore.collection(context.getString(R.string.users))

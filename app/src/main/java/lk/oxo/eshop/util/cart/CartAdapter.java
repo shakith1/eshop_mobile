@@ -1,5 +1,6 @@
 package lk.oxo.eshop.util.cart;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -46,7 +47,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CartViewHolder holder, @SuppressLint("RecyclerView") int position) {
         CartItem cartItem = cartItems.get(position);
 
         holder.title.setText(cartItem.getProduct().getTitle());
@@ -60,7 +61,19 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 .centerCrop()
                 .into(holder.imageView);
 
-        if(position == cartItems.size()-1){
+        holder.remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cartItems.remove(position);
+                notifyItemRemoved(position);
+                notifyItemChanged(position, cartItems.size());
+                CartHelper cartHelper = new CartHelper(context);
+                cartHelper.removeCart(cartItem);
+                main.updateTotal(getTotalPrice());
+            }
+        });
+
+        if (position == cartItems.size() - 1) {
             main.updateTotal(getTotalPrice());
         }
     }
@@ -71,7 +84,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     public static class CartViewHolder extends RecyclerView.ViewHolder {
-        private TextView title, price, qty;
+        private TextView title, price, qty, remove;
         private ImageView imageView;
 
         public CartViewHolder(@NonNull View itemView) {
@@ -80,6 +93,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             price = itemView.findViewById(R.id.textView40);
             qty = itemView.findViewById(R.id.textView45);
             imageView = itemView.findViewById(R.id.imageViewCart);
+            remove = itemView.findViewById(R.id.textView46);
         }
     }
 }
