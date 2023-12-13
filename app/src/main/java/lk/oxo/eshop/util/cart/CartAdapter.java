@@ -16,25 +16,26 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import lk.oxo.eshop.R;
+import lk.oxo.eshop.components.cart.UserCart_Products_Main;
 import lk.oxo.eshop.model.CartItem;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
-    private CartTotalListener listener;
+    private UserCart_Products_Main main;
     private List<CartItem> cartItems;
     private Context context;
 
-    public CartAdapter(List<CartItem> cartItems, Context context) {
+    public CartAdapter(List<CartItem> cartItems, Context context, UserCart_Products_Main main) {
         this.cartItems = cartItems;
         this.context = context;
+        this.main = main;
     }
 
-    public void getTotalPrice() {
+    public double getTotalPrice() {
         double totalPrice = 0;
         for (CartItem cartItem : cartItems) {
             totalPrice += cartItem.getProduct().getPrice() * cartItem.getQuantity();
         }
-        listener.onCalculated(totalPrice);
-//        return totalPrice;
+        return totalPrice;
     }
 
     @NonNull
@@ -58,6 +59,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 .fit()
                 .centerCrop()
                 .into(holder.imageView);
+
+        if(position == cartItems.size()-1){
+            main.updateTotal(getTotalPrice());
+        }
     }
 
     @Override

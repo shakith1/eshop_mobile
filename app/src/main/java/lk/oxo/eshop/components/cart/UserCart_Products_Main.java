@@ -14,7 +14,7 @@ import android.widget.TextView;
 import lk.oxo.eshop.R;
 import lk.oxo.eshop.util.cart.CartTotalListener;
 
-public class UserCart_Products_Main extends Fragment implements CartTotalListener {
+public class UserCart_Products_Main extends Fragment{
     private TextView total;
 
     @Override
@@ -31,8 +31,7 @@ public class UserCart_Products_Main extends Fragment implements CartTotalListene
         total = view.findViewById(R.id.textView50);
     }
 
-    @Override
-    public void onCalculated(double totalPrice) {
-        total.setText(String.valueOf(totalPrice));
+    public void updateTotal(double totalPrice){
+        total.setText(getContext().getString(R.string.currency)+ " "+totalPrice+"0");
     }
 }

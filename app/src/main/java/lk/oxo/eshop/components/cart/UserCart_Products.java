@@ -23,7 +23,6 @@ import lk.oxo.eshop.util.cart.CartTotalListener;
 
 public class UserCart_Products extends Fragment {
 
-    private CartAdapter adapter;
     private RecyclerView cartView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,20 +34,12 @@ public class UserCart_Products extends Fragment {
         helper.getCartDetails(new CartHelper.OnCartDataCallback() {
             @Override
             public void onLoad(List<CartItem> cartItems) {
-                CartAdapter adapter = new CartAdapter(cartItems, getContext());
+                CartAdapter adapter = new CartAdapter(cartItems, getContext(),(UserCart_Products_Main) getParentFragment());
                 cartView.setLayoutManager(new LinearLayoutManager(getContext()));
                 cartView.setAdapter(adapter);
             }
         });
         return view;
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if(context instanceof CartTotalListener){
-
-        }
     }
 
     @Override
