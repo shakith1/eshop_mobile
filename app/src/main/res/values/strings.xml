@@ -178,4 +178,10 @@
 
     <string name="lat">Lat:</string>
     <string name="lng">Lng:</string>
+    <string name="checkout_msg">You have successfully placed your order</string>
+
+    <string name="notification_id">order_channel</string>
+    <string name="notification_channel">order_channel</string>
+    <string name="notification_title">Order Placed</string>
+    <string name="notification_msg">Your order has been successfully placed!</string>
 </resources>

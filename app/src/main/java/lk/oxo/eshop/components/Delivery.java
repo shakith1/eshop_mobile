@@ -2,15 +2,22 @@ package lk.oxo.eshop.components;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -33,12 +40,14 @@ public class Delivery extends AppCompatActivity implements OnMapReadyCallback {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private Location currentLocation;
     private TextView locationView;
+    private Button checkout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery);
         locationView = findViewById(R.id.textView55);
+        checkout = findViewById(R.id.button28);
 
         int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
 
@@ -64,6 +73,14 @@ public class Delivery extends AppCompatActivity implements OnMapReadyCallback {
                     }, LOCATION_PERMISSION_REQUEST_CODE
             );
         }
+
+        checkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Delivery.this,CheckoutSuccess.class));
+                finish();
+            }
+        });
     }
 
     @Override
@@ -110,24 +127,4 @@ public class Delivery extends AppCompatActivity implements OnMapReadyCallback {
             });
         }
     }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-////                getLastLocation();
-//            } else {
-//                Snackbar.make(findViewById(R.id.container), "Location Permission Denied", Snackbar.LENGTH_INDEFINITE)
-//                        .setAction("Settings", new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-//                                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                startActivity(intent);
-//                            }
-//                        }).show();
-//            }
-//        }
-//    }
 }

@@ -134,6 +134,22 @@ public class CartHelper {
                 });
     }
 
+    public void removeAllCart(){
+        DocumentReference document = firestore.collection(context.getString(R.string.users))
+                .document(LoggedUser.getLoggedUser().getUid());
+        document.collection(context.getString(R.string.cart_item_collection)).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                documentSnapshot.getReference().delete();
+                            }
+                        }
+                    }
+                });
+    }
+
     public interface OnCartDataCallback {
         void onLoad(List<CartItem> cartItems);
     }
