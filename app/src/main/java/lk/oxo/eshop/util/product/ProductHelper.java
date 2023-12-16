@@ -47,7 +47,7 @@ public class ProductHelper {
                     product.setId(document.getId());
                     product.setTitle(document.getString("title"));
                     product.setDescription(document.getString("description"));
-                    product.setPrice(Double.parseDouble(document.getString("price")));
+                    product.setPrice(document.getDouble("price"));
                     product.setQuantity(document.getLong("quantity"));
 
                     List<Uri> images = (List<Uri>) document.get("images");
@@ -79,7 +79,7 @@ public class ProductHelper {
                         product.setId(document.getId());
                         product.setTitle(document.getString("title"));
                         product.setDescription(document.getString("description"));
-                        product.setPrice(Double.parseDouble(document.getString("price")));
+                        product.setPrice(document.getDouble("price"));
                         product.setQuantity(document.getLong("quantity"));
 
                         List<Uri> images = (List<Uri>) document.get("images");

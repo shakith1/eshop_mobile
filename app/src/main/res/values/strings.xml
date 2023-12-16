@@ -168,4 +168,14 @@
     <string name="cart_item_collection">cart</string>
 
     <string name="cart_product_product_id">product.id</string>
+    <string name="delivery_details">Delivery Details</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="no_delivery">No.</string>
+    <string name="street_delivery">Street</string>
+    <string name="city_delivery">City</string>
+    <string name="delivery_location">Delivery Location</string>
+    <string name="checkout">Checkout</string>
+
+    <string name="lat">Lat:</string>
+    <string name="lng">Lng:</string>
 </resources>
