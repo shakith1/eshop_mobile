@@ -45,3 +45,34 @@ This Model-View-View-Model (MVVM) architecture supports for efficient data flow
 
 #### Login - Using Username and Password
 <img src="https://github.com/shakith1/eshop_mobile/assets/43404070/270f7395-4496-4b8d-a3b4-3d55e1dcb10a" width="280" height="520">
+
+#### Login - Google
+- When a user signin using Google email account, If the user already created a account using email and password, this page will be displayed to link both accounts
+<img src="https://github.com/shakith1/eshop_mobile/assets/43404070/88cf5955-8d90-43c5-a3d2-357b78035986" width="280" height="520">
+
+- If user doesn't have a account, this page will be displayed
+<img src="https://github.com/shakith1/eshop_mobile/assets/43404070/6432cd9c-5ae8-4a0d-8d50-200ded19a8af" width="280" height="520">
+
+### Create Account
+#### Create Account Home Page
+<img src="https://github.com/shakith1/eshop_mobile/assets/43404070/7af7ee44-81aa-45b7-9d70-b1e6c8a3b7e7" width="280" height="520">
+
+#### Create Account - Add Details
+<img src="https://github.com/shakith1/eshop_mobile/assets/43404070/246d0398-4c41-41d3-bfe3-ec5909ace59a" width="280" height="520">
+
+#### Create Account - Add Password
+<img src="https://github.com/shakith1/eshop_mobile/assets/43404070/55179cf6-c52e-4485-a3d7-df48d70757c8" width="280" height="520">
+
+#### Create Account - Add Mobile Number
+<img src="https://github.com/shakith1/eshop_mobile/assets/43404070/33744686-e858-458e-9729-48ad192e601f" width="280" height="520">
+
+#### Create Account - Verify OTP
+- User have to enter the OTP which is sent to the mobile number
+- OTP field will be auto filled when OTP recieved
+<img src="https://github.com/shakith1/eshop_mobile/assets/43404070/4e30efe7-9dfd-46e0-8892-689656b04bc7" width="280" height="520">
+
+### User Management
+<img src="https://github.com/shakith1/eshop_mobile/assets/43404070/8a796192-6028-4cec-8cee-18b09d72a344" width="280" height="520">
+
+### Product Cart
+<img src="https://github.com/shakith1/eshop_mobile/assets/43404070/6f7d308b-616e-4e8e-a807-8393d111933a" width="280" height="520">
