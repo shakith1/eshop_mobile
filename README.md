@@ -76,3 +76,11 @@ This Model-View-View-Model (MVVM) architecture supports for efficient data flow
 
 ### Product Cart
 <img src="https://github.com/shakith1/eshop_mobile/assets/43404070/6f7d308b-616e-4e8e-a807-8393d111933a" width="280" height="520">
+
+### Select Delivery Location
+<img src="https://github.com/shakith1/eshop_mobile/assets/43404070/f1273966-1431-4a34-a7d8-2aa240a265ac" width="280" height="520">
+
+### UI Mode
+- Application supports both day and night modes
+<img src="https://github.com/shakith1/eshop_mobile/assets/43404070/e2b776d7-ca4c-4bfb-990c-78f72b4d2858" width="280" height="520">
+<img src="https://github.com/shakith1/eshop_mobile/assets/43404070/74115f47-b1cf-465d-9b2b-54cb600df4ca" width="280" height="520">
