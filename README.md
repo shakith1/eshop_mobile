@@ -32,4 +32,4 @@ This Model-View-View-Model (MVVM) architecture supports for efficient data flow
 
 ## Screenshots
 ### Home Page
-<img src="https://github.com/shakith1/eshop_mobile/assets/43404070/8fb5df97-3806-4c00-aa7e-7aa49aa950c3" width="240" height="450">
+<img src="https://github.com/shakith1/eshop_mobile/assets/43404070/8fb5df97-3806-4c00-aa7e-7aa49aa950c3" width="280" height="500">
