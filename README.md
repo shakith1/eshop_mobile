@@ -30,6 +30,6 @@ This Model-View-View-Model (MVVM) architecture supports for efficient data flow
 ## UML Design
 
 ![UML Design](https://github.com/shakith1/eshop_mobile/assets/43404070/15408539-8165-4634-bfa8-3a92e667203e)
-<img src="[UML](https://github.com/shakith1/eshop_mobile/assets/43404070/9e558687-c812-41d5-b5b5-6ad7a4c01840)" width="500" height="900">
+<img src="[UML](https://github.com/shakith1/eshop_mobile/assets/43404070/9e558687-c812-41d5-b5b5-6ad7a4c01840)" width="800" height="1500">
 
 ![UML Design](https://github.com/shakith1/eshop_mobile/assets/43404070/9e558687-c812-41d5-b5b5-6ad7a4c01840)
