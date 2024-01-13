@@ -36,5 +36,12 @@ This Model-View-View-Model (MVVM) architecture supports for efficient data flow
 <img src="https://github.com/shakith1/eshop_mobile/assets/43404070/8fb5df97-3806-4c00-aa7e-7aa49aa950c3" width="280" height="520">
 
 ### Single Product View
-Detailed View about the product displayed here<br/>
+- Detailed View about the product displayed here<br/>
 <img src="https://github.com/shakith1/eshop_mobile/assets/43404070/8ecb5c89-e8ed-432d-a3b0-f60c8d8d48b3" width="280" height="520">
+
+### Login
+#### Login Home Page
+<img src="https://github.com/shakith1/eshop_mobile/assets/43404070/bb62ee34-f3e1-4951-80ef-b24e87d158ce" width="280" height="520">
+
+#### Login - Using Username and Password
+<img src="https://github.com/shakith1/eshop_mobile/assets/43404070/270f7395-4496-4b8d-a3b4-3d55e1dcb10a" width="280" height="520">
