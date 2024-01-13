@@ -28,7 +28,7 @@ The eShop application follows a modular architecture:
 
 This Model-View-View-Model (MVVM) architecture supports for efficient data flow
 ## UML Design
-<img src="https://github.com/shakith1/eshop_mobile/assets/43404070/15408539-8165-4634-bfa8-3a92e667203e" width="500" height="600">
+<center><img src="https://github.com/shakith1/eshop_mobile/assets/43404070/15408539-8165-4634-bfa8-3a92e667203e" width="500" height="600"></center>
 <br/>
 <img src="https://github.com/shakith1/eshop_mobile/assets/43404070/9e558687-c812-41d5-b5b5-6ad7a4c01840" width="300" height="600">
 
