@@ -51,6 +51,7 @@ This Model-View-View-Model (MVVM) architecture supports for efficient data flow
 <img src="https://github.com/shakith1/eshop_mobile/assets/43404070/88cf5955-8d90-43c5-a3d2-357b78035986" width="280" height="520">
 
 - If user doesn't have a account, this page will be displayed
+- The details will be filled according to the email
 <img src="https://github.com/shakith1/eshop_mobile/assets/43404070/6432cd9c-5ae8-4a0d-8d50-200ded19a8af" width="280" height="520">
 
 ### Create Account
