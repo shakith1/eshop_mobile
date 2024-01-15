@@ -27,6 +27,15 @@ The eShop application follows a modular architecture:
 - Data Layer: Firebase integration, data models
 
 This Model-View-View-Model (MVVM) architecture supports for efficient data flow
+
+## Technologies Used
+- Andorid
+- SQLite
+- Firebase Firestore
+- Firebase Storage
+- Firebase Authentication
+- Google Map API
+
 ## UML Design
 <center><img src="https://github.com/shakith1/eshop_mobile/assets/43404070/15408539-8165-4634-bfa8-3a92e667203e" width="500" height="600"></center>
 
